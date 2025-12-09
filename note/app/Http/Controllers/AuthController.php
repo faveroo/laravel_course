@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -12,7 +13,7 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-    {  
+    {
         $request->validate([
             'text_username' => 'required|email|max:255',
             'text_password' => 'required|min:6|max:30',
@@ -28,7 +29,13 @@ class AuthController extends Controller
         $username = $request->text_username;
         $password = $request->text_password;
 
-        
+        // DB test connection
+        try {
+            DB::connection()->getPdo();
+            echo "Connection is OK!";
+        } catch (\PDOException $e) {
+            echo "Connection failed!";
+        }
     }
 
     public function logout()
