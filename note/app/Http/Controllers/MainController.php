@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-    public function index($value = null)
+    public function index()
     {
-        return view('main', ['value' => $value]);
+        return view('main');
     }
+
+    public function createNote() {}
 }
