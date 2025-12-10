@@ -6,6 +6,12 @@
         <div class="col-md-6 col-sm-8">
             <div class="card p-5">
 
+                @if (session('logout_success'))
+                <div class="alert alert-success text-center">
+                    {{ session('logout_success') }}
+                </div>
+                @endif
+
                 <!-- logo -->
                 <div class="text-center p-3">
                     <img src="assets/images/logo.png" alt="Notes logo">
@@ -41,7 +47,7 @@
                         </form>
 
                         @if (session('login_error'))
-                        <div class="alert alert-danger">
+                        <div class="alert alert-danger text-center">
                             {{ session('login_error') }}
                         </div>
                         @endif
