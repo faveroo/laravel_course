@@ -54,11 +54,18 @@ class AuthController extends Controller
         $user->save();
 
         //user login
-        session()->put('user', $user);
+        session()->put('user', [
+            'id' => $user->id,
+            'username' => $user->username,
+        ]);
+
+        echo "Login efetuado com sucesso";
+        // return redirect()->route('home');
     }
 
     public function logout()
     {
-        echo "logout";
+        session()->forget('user');
+        return redirect()->route('index');
     }
 }
