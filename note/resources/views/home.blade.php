@@ -5,27 +5,9 @@
     <div class="row justify-content-center">
         <div class="col">
 
-            <div class="row mb-3 align-items-center">
-                <div class="col">
-                    <a href="{{ route('home') }}">
-                        <img src="assets/images/logo.png" alt="Notes logo">
-                    </a>
-                </div>
-                <div class="col text-center">
-                    A simple <span class="text-warning">Laravel</span> project!
-                </div>
-                <div class="col">
-                    <div class="d-flex justify-content-end align-items-center">
-                        <span class="me-3"><i class="fa-solid fa-user-circle fa-lg text-secondary me-3"></i>{{ session('user')->username }}</span>
-                        <a href="{{ route('logout') }}" class="btn btn-outline-secondary px-3">
-                            Logout<i class="fa-solid fa-arrow-right-from-bracket ms-2"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            @include('partials.top_bar')
 
-            <hr>
-
+            @if (count($notes) == 0)
             <!-- no notes available -->
             <div class="row mt-5">
                 <div class="col text-center">
@@ -40,19 +22,24 @@
             <hr class="my-5">
 
             <!-- notes are available -->
+
+            @else
+
             <div class="d-flex justify-content-end mb-3">
                 <a href="{{ route('new') }}" class="btn btn-secondary px-3">
                     <i class="fa-regular fa-pen-to-square me-2"></i>New Note
                 </a>
             </div>
 
+
+            @foreach ($notes as $note)
             <div class="row">
                 <div class="col">
                     <div class="card p-4">
                         <div class="row">
                             <div class="col">
-                                <h4 class="text-info">Note Title</h4>
-                                <small class="text-secondary"><span class="opacity-75 me-2">Created at:</span><strong>00/00/0000 00:00:00</strong></small>
+                                <h4 class="text-info">{{ $note['title'] }}</h4>
+                                <small class="text-secondary"><span class="opacity-75 me-2">Created at:</span><strong>{{ \Carbon\Carbon::parse($note['created_at'])->format('d/m/Y H:i') }}</strong></small>
                             </div>
                             <div class="col text-end">
                                 <a href="#" class="btn btn-outline-secondary btn-sm mx-1"><i class="fa-regular fa-pen-to-square"></i></a>
@@ -60,10 +47,13 @@
                             </div>
                         </div>
                         <hr>
-                        <p class="text-secondary">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia temporibus necessitatibus nesciunt quam repellat porro commodi autem veniam doloribus nostrum magni rerum, libero ullam maxime praesentium cum velit. Recusandae, aspernatur.</p>
+                        <p class="text-secondary">{{ $note['text'] }}</p>
                     </div>
                 </div>
             </div>
+            @endforeach
+
+            @endif
         </div>
     </div>
 </div>
