@@ -16,7 +16,7 @@ class CheckIsLogged
     public function handle(Request $request, Closure $next): Response
     {
         if (!session()->has('user')) {
-            return redirect()->route('index')->with([
+            return redirect()->to('/login')->with([
                 'login_error' => 'Faça login para continuar',
             ]);
         }
