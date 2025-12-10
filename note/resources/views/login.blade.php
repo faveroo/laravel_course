@@ -20,7 +20,7 @@
                 <!-- form -->
                 <div class="row justify-content-center">
                     <div class="col-md-10 col-12">
-                        <form action="{{ route('login') }}" method="post" novalidate>
+                        <form action="/login" method="post" novalidate>
                             @csrf
                             @method('post')
                             <div class="mb-3">
