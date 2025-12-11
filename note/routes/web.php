@@ -13,6 +13,14 @@ Route::middleware([CheckIsNotLogged::class])->group(function () {
 
 Route::middleware([CheckIsLogged::class])->group(function () {
     Route::get('/', [MainController::class, 'home'])->name('home');
-    Route::get('/create-note', [MainController::class, 'createNote'])->name('new');
+
+    Route::get('/note/create', [MainController::class, 'createNote'])->name('note.new');
+    Route::post('/note/store', [MainController::class, 'storeNote'])->name('note.store');
+
+    Route::get('/note/edit/{id}', [MainController::class, 'editNote'])->name('note.edit');
+    Route::put('/note/update/{id}', [MainController::class, 'updateNote'])->name('note.update');
+
+    Route::get('/note/delete/{id}', [MainController::class, 'deleteNote'])->name('note.delete');
+
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
