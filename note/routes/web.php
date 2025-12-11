@@ -21,6 +21,7 @@ Route::middleware([CheckIsLogged::class])->group(function () {
     Route::put('/note/update', [MainController::class, 'updateNote'])->name('note.update');
 
     Route::get('/note/delete/{id}', [MainController::class, 'deleteNote'])->name('note.delete');
+    Route::get('/note/destroy/{id}', [MainController::class, 'destroyNote'])->name('note.destroy');
 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });

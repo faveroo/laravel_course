@@ -12,7 +12,11 @@ class MainController extends Controller
     public function home()
     {
         $id = session('user')->id;
-        $notes = User::find($id)->notes()->get()->toArray();
+        $notes = User::find($id)
+            ->notes()
+            ->where('deleted_at', null)
+            ->get()
+            ->toArray();
 
         return view('home', compact('notes'));
     }
@@ -90,5 +94,41 @@ class MainController extends Controller
     public function deleteNote($id)
     {
         $id = Operations::decryptId($id);
+
+        $note = Note::find($id);
+
+        if (!$note) {
+            return redirect()->route('home');
+        }
+
+        return view('delete-note', compact('note'));
+    }
+
+    public function destroyNote($id)
+    {
+        $id = Operations::decryptId($id);
+
+        $note = Note::find($id);
+
+        if (!$note) {
+            return redirect()->route('home');
+        }
+
+        // hard delete
+        // $note->delete();
+
+        // soft delete
+        // $note->deleted_at = now();
+        // $note->save();
+
+        // hard delete with SoftDeletes trait
+        // $note->forceDelete();
+
+        // soft delete with SoftDeletes trait
+        $note->delete();
+
+
+
+        return redirect()->route('home')->with('success', 'Note deleted successfully!');
     }
 }

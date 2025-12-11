@@ -5,6 +5,9 @@
                 <div class="col">
                     <h4 class="text-info">{{ $note['title'] }}</h4>
                     <small class="text-secondary"><span class="opacity-75 me-2">Created at:</span><strong>{{ \Carbon\Carbon::parse($note['created_at'])->format('d/m/Y H:i') }}</strong></small>
+                    @if ($note['created_at'] != $note['updated_at'])
+                    <small class="text-secondary"><span class="opacity-75 me-2">Updated at:</span><strong>{{ \Carbon\Carbon::parse($note['updated_at'])->format('d/m/Y H:i') }}</strong></small>
+                    @endif
                 </div>
                 <div class="col text-end">
                     <a href="{{ route('note.edit', Crypt::encrypt($note['id'])) }}" class="btn btn-outline-secondary btn-sm mx-1"><i class="fa-regular fa-pen-to-square"></i></a>
