@@ -19,9 +19,10 @@
             </div>
 
             <!-- form -->
-            <form action="{{ route('note.update', Crypt::encrypt($note->id)) }}" method="post">
+            <form action="{{ route('note.update') }}" method="post">
                 @csrf
                 @method('PUT')
+                <input type="hidden" name="id" value="{{ Crypt::encrypt($note->id) }}">
                 <div class="row mt-3">
                     <div class="col">
                         <div class="mb-3">
