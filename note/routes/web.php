@@ -18,7 +18,7 @@ Route::middleware([CheckIsLogged::class])->group(function () {
     Route::post('/note/store', [MainController::class, 'storeNote'])->name('note.store');
 
     Route::get('/note/edit/{id}', [MainController::class, 'editNote'])->name('note.edit');
-    Route::put('/note/update/{id}', [MainController::class, 'updateNote'])->name('note.update');
+    Route::put('/note/update', [MainController::class, 'updateNote'])->name('note.update');
 
     Route::get('/note/delete/{id}', [MainController::class, 'deleteNote'])->name('note.delete');
 
