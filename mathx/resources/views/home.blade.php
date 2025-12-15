@@ -25,7 +25,9 @@
     </h3>
 
     <!-- form -->
-    <form action="#" method="post">
+    <form action="{{ route('generate') }}" method="post">
+
+        @csrf
 
         <div class="container border border-primary rounded-3 p-5">
 
@@ -105,11 +107,11 @@
 
     <!-- footer -->
     <footer class="text-center mt-5">
-        <p class="text-secondary">MathX &copy; <span class="text-info">[ANO]</span></p>
+        <p class="text-secondary">MathX &copy; <span class="text-info">{{ date('Y') }}</span></p>
     </footer>
 
     <!-- bootstrap -->
-    <script src="assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('assets/bootstrap/bootstrap.bundle.min.js') }}"></script>
 </body>
 
 </html>
