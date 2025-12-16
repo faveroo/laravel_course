@@ -71,13 +71,13 @@
                     <div class="mb-3">
                         <label for="number_one">Mínimo:</label>
                         <input type="number" class="form-control" id="number_one" name="number_one" min="0" max="999"
-                            value="0">
+                            value="{{ old('number_one', 0) }}">
                     </div>
 
                     <div>
                         <label for="number_two">Máximo:</label>
                         <input type="number" class="form-control" id="number_two" name="number_two" min="0" max="999"
-                            value="100">
+                            value="{{ old('number_two', 999) }}">
                     </div>
 
                 </div>
@@ -90,7 +90,7 @@
                     <div class="mb-3">
                         <label for="number_exercises">Número:</label>
                         <input type="number" class="form-control" id="number_exercises" name="number_exercises" min="5"
-                            max="50" value="10">
+                            max="50" value="{{ old('number_exercises', 5) }}">
                     </div>
 
                     <div class="text-end">
@@ -104,6 +104,16 @@
         </div>
 
     </form>
+
+    @if($errors->any())
+    <div class="container">
+        <div class="row">
+            <div class="alert alert-danger text-center mt-3">
+                Por favor, selecione pelo menos uma operação. As parcelas devem ser números inteiros entre 0 e 999. O número de exercícios deve ser um número inteiro entre 5 e 50.
+            </div>
+        </div>
+    </div>
+    @endif
 
     <!-- footer -->
     <footer class="text-center mt-5">
