@@ -17,8 +17,12 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
+            'login.email' => ['required', 'email'],
+            'login.password' => ['required'],
+        ], [
+            'login.email.required' => 'The email field is required.',
+            'login.email.email' => 'The email must be a valid email address.',
+            'login.password.required' => 'The password field is required.',
         ]);
 
         if (Auth::attempt($credentials, $request->remember)) {
@@ -38,6 +42,16 @@ class AuthController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', 'min:8'],
+            'password_confirmation' => ['required'],
+        ], [
+            'name.required' => 'The name field is required.',
+            'email.required' => 'The email field is required.',
+            'email.email' => 'The email must be a valid email address.',
+            'email.unique' => 'The email has already been taken.',
+            'password.required' => 'The password field is required.',
+            'password.confirmed' => 'The password confirmation does not match.',
+            'password.min' => 'The password must be at least :min characters.',
+            'password_confirmation.required' => 'The password confirmation field is required.',
         ]);
 
         $user = User::create([
@@ -48,6 +62,11 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect('dashboard');
+        return redirect()->intended('dashboard');
+    }
+
+    public function dashboard()
+    {
+        return view('dashboard');
     }
 }
