@@ -1,29 +1,22 @@
 @props([
 'label',
-'form' => null
+'form',
+'name',
+'type',
 ])
-
-@php
-$oldKey = $form
-? $form . '.' . $attributes->get('name')
-: $attributes->get('name');
-@endphp
 
 <div class="form-group mb-3">
     <div class="form-outline" data-mdb-input-init>
         <input
-            {{ $attributes->merge([
-                'class' => 'form-control bg-dark text-light',
-                'name' => $oldKey
-            ]) }}
-            value="{{ old($oldKey) }}">
-
+            type="{{ $type }}"
+            name="{{ $form }}[{{ $name }}]"
+            value="{{ old($form . '.' . $name) }}"
+            class="form-control bg-dark text-light @error($form . '.' . $name) is-invalid @enderror">
         <label class="form-label text-secondary">
             {{ $label }}
         </label>
     </div>
-
-    @error($oldKey)
+    @error($form . '.' . $name)
     <small class="text-danger">{{ $message }}</small>
     @enderror
 </div>
