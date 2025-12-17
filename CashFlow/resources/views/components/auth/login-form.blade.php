@@ -1,12 +1,16 @@
 <form action="{{ route('login') }}" method="POST">
     @csrf
 
+    <input type="hidden" name="form_type" value="login">
+
     <x-auth.input
+        form="login"
         type="email"
         name="email"
         label="Email Address" />
 
     <x-auth.input
+        form="login"
         type="password"
         name="password"
         label="Password" />

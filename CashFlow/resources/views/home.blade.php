@@ -3,7 +3,7 @@
 @section('content')
 <section class="bg-dark min-vh-100 d-flex align-items-center">
     <div class="container">
-        <div class="auth-container">
+        <div class="auth-container {{ old('form_type') == 'register' ? 'active' : '' }}">
 
             <div class="form-wrapper login">
                 <x-auth.login-form />
