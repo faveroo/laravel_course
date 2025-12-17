@@ -15,18 +15,20 @@
     height: 100%;
     width: 50%;
     padding: 60px;
-    transition: transform .6s ease-in-out;
+    transition: transform .6s ease-in-out, opacity .6s ease-in-out, z-index .6s;
 }
 
 .form-wrapper.login {
     left: 0;
     z-index: 2;
+    opacity: 1;
 }
 
 .form-wrapper.register {
     left: 0;
     transform: translateX(100%);
     z-index: 1;
+    opacity: 0;
 }
 
 /* OVERLAY */
@@ -50,9 +52,30 @@
     width: 200%;
     transform: translateX(0);
     transition: transform .6s ease-in-out;
+}
+
+.overlay-panel {
+    position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transform: translateX(0);
+    transition: transform .6s ease-in-out;
+}
+
+.overlay-left {
+    transform: translateX(-20%);
+}
+
+.overlay-right {
+    right: 0;
+    transform: translateX(0);
 }
 
 /* ======================
@@ -61,11 +84,14 @@
 
 .auth-container.active .login {
     transform: translateX(100%);
+    opacity: 0;
+    z-index: 1;
 }
 
 .auth-container.active .register {
     transform: translateX(100%);
-    z-index: 2;
+    opacity: 1;
+    z-index: 5;
 }
 
 .auth-container.active .overlay-container {
@@ -74,4 +100,12 @@
 
 .auth-container.active .overlay {
     transform: translateX(50%);
+}
+
+.auth-container.active .overlay-left {
+    transform: translateX(0);
+}
+
+.auth-container.active .overlay-right {
+    transform: translateX(20%);
 }
