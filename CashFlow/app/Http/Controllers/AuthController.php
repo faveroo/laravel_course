@@ -39,34 +39,29 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', 'min:8'],
-            'password_confirmation' => ['required'],
+            'register.name' => ['required', 'string', 'max:255'],
+            'register.email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'register.password' => ['required', 'confirmed', 'min:8'],
+            'register.password_confirmation' => ['required'],
         ], [
-            'name.required' => 'The name field is required.',
-            'email.required' => 'The email field is required.',
-            'email.email' => 'The email must be a valid email address.',
-            'email.unique' => 'The email has already been taken.',
-            'password.required' => 'The password field is required.',
-            'password.confirmed' => 'The password confirmation does not match.',
-            'password.min' => 'The password must be at least :min characters.',
-            'password_confirmation.required' => 'The password confirmation field is required.',
+            'register.name.required' => 'The name field is required.',
+            'register.email.required' => 'The email field is required.',
+            'register.email.email' => 'The email must be a valid email address.',
+            'register.email.unique' => 'The email has already been taken.',
+            'register.password.required' => 'The password field is required.',
+            'register.password.confirmed' => 'The password confirmation does not match.',
+            'register.password.min' => 'The password must be at least :min characters.',
+            'register.password_confirmation.required' => 'The password confirmation field is required.',
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name' => $request->register['name'],
+            'email' => $request->register['email'],
+            'password' => Hash::make($request->register['password']),
         ]);
 
         Auth::login($user);
 
         return redirect()->intended('dashboard');
-    }
-
-    public function dashboard()
-    {
-        return view('dashboard');
     }
 }
