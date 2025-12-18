@@ -6,6 +6,42 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Inter', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-dark-bg: #0f172a;
+    /* Slate 900 */
+    --color-dark-surface: #1e293b;
+    /* Slate 800 */
+    --color-dark-border: #334155;
+    /* Slate 700 */
+
+    --color-primary: #3b82f6;
+    /* Blue 500 */
+    --color-primary-hover: #2563eb;
+    /* Blue 600 */
+
+    --color-text-main: #f8fafc;
+    /* Slate 50 */
+    --color-text-secondary: #94a3b8;
+    /* Slate 400 */
+}
+
+/* Custom Base Styles */
+body {
+    background-color: var(--color-dark-bg);
+    color: var(--color-text-main);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth transitions for interactive elements */
+a,
+button,
+input,
+select,
+.transition-base {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 200ms;
 }
