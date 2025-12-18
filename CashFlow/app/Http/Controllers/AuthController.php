@@ -25,15 +25,20 @@ class AuthController extends Controller
             'login.password.required' => 'The password field is required.',
         ]);
 
-        if (Auth::attempt($credentials, $request->remember)) {
+        $user = [
+            'email' => $request->login['email'],
+            'password' => $request->login['password'],
+        ];
+
+        if (Auth::attempt($user, $request->remember)) {
             $request->session()->regenerate();
 
             return redirect()->intended('dashboard');
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+            'login.email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('login.email');
     }
 
     public function register(Request $request)
@@ -63,5 +68,15 @@ class AuthController extends Controller
         Auth::login($user);
 
         return redirect()->intended('dashboard');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 }
