@@ -13,7 +13,8 @@ class MainController extends Controller
     {
         $transactions = Transaction::all();
         $categories = Category::all();
+        $recents = Transaction::orderBy('created_at', 'desc')->take(5)->get();
 
-        return view('dashboard', compact('transactions', 'categories'));
+        return view('dashboard', compact('transactions', 'categories', 'recents'));
     }
 }

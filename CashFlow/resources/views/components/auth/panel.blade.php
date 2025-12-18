@@ -1,4 +1,4 @@
-<div class="absolute top-0 left-20 flex flex-col items-center justify-center w-1/2 h-full px-10 text-center transition-transform duration-700 ease-in-out translate-x-[-20%] overlay-left">
+<div class="absolute top-0 right-90 flex flex-col items-center justify-center w-1/2 h-full px-10 text-center transition-transform duration-700 ease-in-out translate-x-[-20%] overlay-left">
     <h2 class="text-3xl font-bold mb-4 text-white">Welcome Back!</h2>
     <p class="text-white/80 mb-8 text-sm leading-relaxed">
         To keep connected with us please login with your personal info

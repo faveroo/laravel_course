@@ -29,6 +29,55 @@
         </div>
     </div>
 
+    <!-- Recents Card -->
+    <div class="bg-dark-surface rounded-xl shadow-lg border border-dark-border p-6 mt-8">
+        <div class="flex items-center justify-center">
+            <div class="mr-4">
+                <h3 class="text-lg font-medium text-white">Recent Transactions</h3>
+                <p class="text-sm text-text-secondary">View your latest transactions.</p>
+            </div>
+        </div>
+        @foreach ($recents as $recent)
+        <a href="{{ route('transaction.show', $recent->id) }}">
+            @if ($recent->type === 'income')
+            <div class="bg-dark-surface border border-dark-border rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow mt-0 first:mt-3 mb-4">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-white font-semibold text-lg">
+                        {{ $recent->description }}
+                    </h3>
+
+                    <span class="text-green-400 font-medium">
+                        + R$ {{ number_format($recent->amount, 2, ',', '.') }}
+                    </span>
+                </div>
+
+                <div class="flex justify-between text-sm text-text-secondary">
+                    <span>{{ $recent->type }}</span>
+                    <span>{{ $recent->date }}</span>
+                </div>
+            </div>
+            @else
+            <div class="bg-dark-surface border border-dark-border rounded-xl p-5 shadow-md hover:shadow-lg transition-shadow mt-0 first:mt-3 mb-4">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="text-white font-semibold text-lg">
+                        {{ $recent->description }}
+                    </h3>
+
+                    <span class="text-red-400 font-medium">
+                        - R$ {{ number_format($recent->amount, 2, ',', '.') }}
+                    </span>
+                </div>
+
+                <div class="flex justify-between text-sm text-text-secondary">
+                    <span>{{ $recent->type }}</span>
+                    <span>{{ $recent->date }}</span>
+                </div>
+            </div>
+            @endif
+        </a>
+        @endforeach
+    </div>
+
 </main>
 
 <!-- Modal Overlay -->

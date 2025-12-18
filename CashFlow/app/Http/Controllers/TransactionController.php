@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Transaction;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
@@ -35,5 +38,22 @@ class TransactionController extends Controller
                 'transaction.category_id' => 'Salary cannot be selected as an expense',
             ])->withInput();
         }
+
+        Transaction::create([
+            'description' => $request->transaction['description'],
+            'amount' => $request->transaction['amount'],
+            'category_id' => $request->transaction['category_id'],
+            'type' => $request->transaction['type'],
+            'date' => Carbon::now(),
+            'user_id' => Auth::user()->id,
+        ]);
+
+        return redirect()->route('dashboard')->with('success', 'Transaction created successfully');
+    }
+
+    public function show($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+        dd($transaction);
     }
 }

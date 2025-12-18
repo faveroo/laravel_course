@@ -15,5 +15,7 @@ Route::middleware(AuthMiddleware::class)->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/dashboard', [MainController::class, 'dashboard'])->name('dashboard');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+
     Route::post('/transaction', [TransactionController::class, 'store'])->name('transaction.store');
+    Route::get('/transaction/{id}', [TransactionController::class, 'show'])->name('transaction.show');
 });
