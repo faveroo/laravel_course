@@ -18,4 +18,5 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/game', [GameController::class, 'game'])->name('game.index');
+    Route::post('/game/check', [GameController::class, 'check'])->name('game.check');
 });
