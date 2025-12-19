@@ -1,10 +1,14 @@
+@props([
+'title'
+])
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $pageTitle }}</title>
+    <title>{{ $title }}</title>
     <!-- favicon -->
     <link rel="icon" href="{{ asset('assets/images/favicon.png') }}" type="image/png">
     <!-- bootstrap -->
@@ -14,10 +18,14 @@
 </head>
 
 <body>
+    <x-logo />
+
     {{ $slot }}
 
     <script src="{{ asset('assets/bootstrap/bootstrap.bundle.min.js') }}"></script>
 
+
+    <x-footer />
 </body>
 
 </html>
