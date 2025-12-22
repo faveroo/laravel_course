@@ -38,7 +38,16 @@ class MainController extends Controller
         //quiz structure - prepare
         $quiz = $this->prepareQuiz($total);
 
-        dd($quiz);
+        // store quiz in session
+        session()->put([
+            'quiz' => $quiz,
+            'total_questions' => $total,
+            'current_question' => 1,
+            'correct_answers' => 0,
+            'wrong_answers' => 0
+        ]);
+
+        return redirect()->route('game.game');
     }
 
 
