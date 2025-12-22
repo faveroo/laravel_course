@@ -157,13 +157,17 @@ class MainController extends Controller
             session()->put('current_question', $current_question);
             return redirect()->route('game.game');
         } else {
-            return redirect()->route('game.showResults');
+            return redirect()->route('game.show');
         }
     }
 
-    public function showResult()
+    public function showResults()
     {
-        echo "Mostrar resultados finais";
-        dd(session()->all());
+        $total_questions = session()->get('total_questions');
+        $correct_answers = session()->get('correct_answers');
+        $wrong_answers = session()->get('wrong_answers');
+        $percent = round($correct_answers / $total_questions * 100, 2);
+
+        return view('final-result', compact("total_questions", "correct_answers", "wrong_answers", "percent"));
     }
 }

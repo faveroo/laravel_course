@@ -11,3 +11,6 @@ Route::post('/', [MainController::class, 'prepareGame'])->name('game.prepare');
 Route::get('/game', [MainController::class, 'game'])->name('game.game');
 Route::get('/answer/{answer}', [MainController::class, 'answer'])->name('game.answer');
 Route::get('/next', [MainController::class, 'next'])->name('game.next');
+
+//game over
+Route::get('/show-results', [MainController::class, 'showResults'])->name('game.show');
