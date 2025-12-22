@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use App\Services\CountryService;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\View\View;
 
 class MainController extends Controller
@@ -73,7 +75,7 @@ class MainController extends Controller
 
             shuffle($other_capitals);
 
-            $question['wrong'] = array_slice($other_capitals, 0, 3);
+            $question['wrong_answers'] = array_slice($other_capitals, 0, 3);
 
             $question['correct'] = null;
 
@@ -87,19 +89,81 @@ class MainController extends Controller
     {
         $quiz = session('quiz');
         $total_questions = session('total_questions');
-        $current = session('current_question') - 1;
+        $current_question = session()->get('current_question');
+        $index = $current_question - 1;
 
         //prepare answer
 
-        $answers = $quiz[$current]['wrong_answers'];
-        $answers[] = $quiz[$current]['correct_answer'];
+        $answers = $quiz[$index]['wrong_answers'];
+        $answers[] = $quiz[$index]['correct_answer'];
         shuffle($answers);
 
         return view('game')->with([
-            'country' => $quiz[$current]['country'],
+            'country' => $quiz[$index]['country'],
             'total_questions' => $total_questions,
-            'current_question' => $current,
+            'current_question' => $current_question,
             'answers' => $answers
         ]);
+    }
+
+    public function answer($enc)
+    {
+        try {
+            $decrypt = Crypt::decryptString($enc);
+        } catch (Exception $e) {
+            return redirect()->route('game');
+        }
+
+        $quiz = session()->get('quiz');
+        $current_question = session()->get('current_question');
+        $index = $current_question - 1;
+        $correct_answer = $quiz[$index]['correct_answer'];
+        $correct_answers = session()->get('correct_answers');
+        $wrong_answers = session()->get('wrong_answers');
+
+        if ($decrypt == $correct_answer) {
+            $correct_answers++;
+            $quiz[$index]['correct'] = true;
+        } else {
+            $wrong_answers++;
+            $quiz[$index]['correct'] = false;
+        }
+
+        session()->put([
+            'quiz' => $quiz,
+            'correct_answers' => $correct_answers,
+            'wrong_answers' => $wrong_answers,
+            'current_question' => $current_question
+        ]);
+
+        $data = [
+            'country' => $quiz[$index]['country'],
+            'correct_answer' => $correct_answer,
+            'choice_answer' => $decrypt,
+            'current_question' => $current_question,
+            'total_questions' => session()->get('total_questions')
+        ];
+
+        return view('result')->with($data);
+    }
+
+    public function next()
+    {
+        $current_question = session()->get('current_question');
+        $total_questions = session()->get('total_questions');
+
+        if ($current_question < $total_questions) {
+            $current_question++;
+            session()->put('current_question', $current_question);
+            return redirect()->route('game.game');
+        } else {
+            return redirect()->route('game.showResults');
+        }
+    }
+
+    public function showResult()
+    {
+        echo "Mostrar resultados finais";
+        dd(session()->all());
     }
 }
