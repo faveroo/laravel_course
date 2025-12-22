@@ -42,5 +42,35 @@ class MainController extends Controller
     }
 
 
-    private function prepareQuiz(int $total) {}
+    private function prepareQuiz(int $total)
+    {
+        $questions = [];
+        $countries_t = count($this->country_data);
+
+        $idx = range(0, $countries_t - 1);
+        shuffle($idx);
+        $idx = array_slice($idx, 0, $total);
+
+        $number = 1;
+        foreach ($idx as $i) {
+            $question['number'] = $number++;
+            $question['country'] = $this->country_data[$i]['country'];
+            $question['answer'] = $this->country_data[$i]['capital'];
+
+            $other_capitals = array_column($this->country_data, 'capital');
+
+            // remove correct answer
+            $other_capitals = array_diff($other_capitals, [$question['answer']]);
+
+            shuffle($other_capitals);
+
+            $question['wrong'] = array_slice($other_capitals, 0, 3);
+
+            $question['correct'] = null;
+
+            $questions[] = $question;
+        }
+
+        return $questions;
+    }
 }
