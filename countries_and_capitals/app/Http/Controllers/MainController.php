@@ -64,12 +64,12 @@ class MainController extends Controller
         foreach ($idx as $i) {
             $question['number'] = $number++;
             $question['country'] = $this->country_data[$i]['country'];
-            $question['answer'] = $this->country_data[$i]['capital'];
+            $question['correct_answer'] = $this->country_data[$i]['capital'];
 
             $other_capitals = array_column($this->country_data, 'capital');
 
             // remove correct answer
-            $other_capitals = array_diff($other_capitals, [$question['answer']]);
+            $other_capitals = array_diff($other_capitals, [$question['correct_answer']]);
 
             shuffle($other_capitals);
 
@@ -81,5 +81,25 @@ class MainController extends Controller
         }
 
         return $questions;
+    }
+
+    public function game(): View
+    {
+        $quiz = session('quiz');
+        $total_questions = session('total_questions');
+        $current = session('current_question') - 1;
+
+        //prepare answer
+
+        $answers = $quiz[$current]['wrong_answers'];
+        $answers[] = $quiz[$current]['correct_answer'];
+        shuffle($answers);
+
+        return view('game')->with([
+            'country' => $quiz[$current]['country'],
+            'total_questions' => $total_questions,
+            'current_question' => $current,
+            'answers' => $answers
+        ]);
     }
 }
