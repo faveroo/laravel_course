@@ -1,59 +1,127 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🔐 Laravel Azure SSO - Login Corporativo com Microsoft
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)
+![Azure](https://img.shields.io/badge/Microsoft_Azure-0089D6?style=for-the-badge&logo=microsoft-azure&logoColor=white)
 
-## About Laravel
+Este repositório contém um **micro-projeto de teste** focado na implementação de Autenticação Única (SSO) corporativa. Demonstramos como integrar o **Microsoft Entra ID (antigo Azure AD)** em uma aplicação Laravel utilizando o protocolo **OpenID Connect (OAuth 2.0)** através do **Laravel Socialite**.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 O que este projeto resolve?
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Em ambientes corporativos, a segurança e a experiência do usuário são cruciais. Este projeto demonstra como permitir que colaboradores acessem sistemas internos usando suas contas oficiais da Microsoft, eliminando a necessidade de gerenciar senhas locais e permitindo o uso de políticas de segurança centralizadas (como MFA).
 
-## Learning Laravel
+### 📚 Principais Aprendizados:
+- **Fluxo OAuth 2.0 / OpenID Connect**: Compreensão prática do handshake entre cliente e provedor.
+- **Integração com Azure AD**: Configuração de registros de aplicativos no portal Azure.
+- **Laravel Socialite**: Uso de drivers customizados para provedores externos.
+- **Gestão de Sessões**: Autenticação de usuários locais a partir de dados externos.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🧱 Tecnologias Utilizadas
 
-## Laravel Sponsors
+- **Framework**: [Laravel 12+](https://laravel.com)
+- **Autenticação**: [Laravel Socialite](https://laravel.com/docs/socialite) + [Microsoft Azure Provider](https://socialiteproviders.com/Microsoft-Azure/)
+- **Frontend**: Blade + Tailwind CSS (via Laravel Breeze)
+- **Serviço de Identidade**: Microsoft Entra ID (Azure AD)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🔐 Como funciona o fluxo de login?
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+O fluxo de autenticação segue o padrão **Authorization Code Grant**:
 
-## Contributing
+1.  **Início**: O usuário clica em "Login com Microsoft".
+2.  **Redirecionamento**: O Laravel redireciona o usuário para o portal de login da Microsoft.
+3.  **Autenticação**: O usuário insere suas credenciais na Microsoft (sujeito a MFA/Políticas da empresa).
+4.  **Callback**: A Microsoft envia um código de autorização de volta para o seu site.
+5.  **Token**: O Laravel troca esse código por um token de acesso de forma segura (server-to-server).
+6.  **Sessão**: O sistema identifica o usuário pelo e-mail, cria ou atualiza o registro local e inicia a sessão.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+> [!IMPORTANT]  
+> **Segurança em primeiro lugar**: A aplicação **nunca** tem acesso à senha do usuário. Todo o processo de validação de senha ocorre nos servidores da Microsoft.
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🛠️ Instalação e Configuração
 
-## Security Vulnerabilities
+### 1. Clonar o repositório
+```bash
+git clone https://github.com/seu-usuario/laravel-azure-login.git
+cd laravel-azure-login
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 2. Instalar dependências
+```bash
+composer install
+npm install
+```
 
-## License
+### 3. Configurar Ambiente
+Copie o arquivo `.env.example` e preencha com suas credenciais:
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
+
+## 🔧 Configuração no Portal Azure
+
+Para que o login funcione, você precisa registrar sua aplicação no [Microsoft Entra ID](https://portal.azure.com/):
+
+1.  **App Registrations**: Vá em "Registros de Aplicativo" > "Novo Registro".
+2.  **Configurações de Nome**: Nomeie como `Laravel Azure Login`.
+3.  **Tipos de conta**: Selecione `Contas em qualquer diretório organizacional` (ou Single Tenant para testes restritos).
+4.  **URI de Redirecionamento**:
+    -   Tipo: `Web`
+    -   URL: `http://localhost:8000/auth/microsoft/callback`
+5.  **Segredos do Cliente**: Em "Certificados e Segredos", crie um novo segredo de cliente e copie o **Valor** (não o ID do segredo).
+
+### Variáveis no `.env`
+No seu arquivo `.env`, preencha as seguintes chaves obtidas no portal:
+
+```env
+AZURE_CLIENT_ID=seu_client_id_aqui
+AZURE_CLIENT_SECRET=seu_valor_do_secret_aqui
+AZURE_TENANT_ID=seu_tenant_id_aqui
+AZURE_REDIRECT_URI=http://localhost:8000/auth/microsoft/callback
+```
+
+---
+
+## 🏃‍♂️ Executando o Projeto
+
+1.  **Inicie as migrações** (usando SQLite por padrão):
+    ```bash
+    php artisan migrate
+    ```
+2.  **Inicie o servidor de desenvolvimento**:
+    ```bash
+    php artisan serve
+    ```
+3.  **Inicie o Vite (Frontend)**:
+    ```bash
+    npm run dev
+    ```
+
+Acesse `http://localhost:8000` e clique no botão de login.
+
+---
+
+## 📁 Estrutura de Código Relevante
+
+-   `config/services.php`: Onde o driver `microsoft` é configurado.
+-   `app/Http/Controllers/AuthController.php`: Contém os métodos `auth()` e `callback()` para lidar com o Socialite.
+-   `routes/web.php`: Definição das rotas de redirecionamento e retorno.
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença [MIT](LICENSE).
+
+---
+Desenvolvido como parte do curso de Laravel. 🚀

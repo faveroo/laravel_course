@@ -12,8 +12,8 @@
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
     <!-- Styles / Scripts -->
-    <a href="">
-        Login com Microsft
+    <a href="{{ route('auth.microsoft') }}">
+        Login com Microsoft
     </a>
     </body>
 
