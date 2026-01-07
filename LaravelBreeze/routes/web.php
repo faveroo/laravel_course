@@ -19,7 +19,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/new-page', [MainController::class, 'newPage'])->name('new-page');
+    Route::get('/new-page', [MainController::class, 'newPage'])->name('new.page');
+    Route::get('/tests', [MainController::class, 'tests'])->name('tests');
 });
+
+Route::get('/public-page', [MainController::class, 'publicPage'])->name('public.page');
 
 require __DIR__ . '/auth.php';
