@@ -118,10 +118,4 @@ Acesse `http://localhost:8000` e clique no botão de login.
 -   `routes/web.php`: Definição das rotas de redirecionamento e retorno.
 
 ---
-
-## 📄 Licença
-
-Este projeto está sob a licença [MIT](LICENSE).
-
----
 Desenvolvido como parte do curso de Laravel. 🚀
