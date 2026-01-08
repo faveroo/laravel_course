@@ -6,10 +6,14 @@
             <p class="display-6">{{ config('app.name') }}</p>
         </div>
         <div class="col d-flex justify-content-end align-items-center gap-5 p-3">
-            <span>Usuário: <strong class="text-info">{{ auth()->user()->name }} </strong></span>
+            <span>Usuário: <strong class="text-info">
+                    {{ auth()->user()->name }}
+                    <span class="ms-3 opacity-50">{{ auth()->user()->email }}</span>
+                </strong></span>
+
             <form action="{{ route('logout') }}" method="post">
                 @csrf
-                <button type="submit" class="btn btn-primary">Logout</button>
+                <button type="submit" class="btn btn-danger">Logout</button>
             </form>
         </div>
     </div>
@@ -20,6 +24,10 @@
         <div class="col text-center">
 
             <span class="display-3">PÁGINA INICIAL</span>
+
+            <hr>
+
+            <a href="">PÁGINA CONTATOS</a>
 
         </div>
     </div>
