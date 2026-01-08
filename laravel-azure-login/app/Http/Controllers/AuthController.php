@@ -29,6 +29,8 @@ class AuthController extends Controller
 
         Auth::login($user);
 
+        dd($azureUser);
+
         return redirect('/dashboard');
     }
 }

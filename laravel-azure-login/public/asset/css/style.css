@@ -1,0 +1,42 @@
+body {
+    background-color: rgb(3, 216, 3);
+    display: flex;
+    justify-content: center;
+}
+
+.enter-name {
+    color: white;
+}
+
+.microsoft-login-btn a {
+    display: flex;
+    /* align-items: center; */
+    /* justify-content: center;  */
+    background-color: #292929;
+    color: #ffffff;
+    border: 1px solid #8c8c8c;
+    border-radius: 2px;
+    padding: 10px 16px;
+    text-decoration: none;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: background-color 0.2s;
+}
+
+.microsoft-login-btn a:hover {
+    background-color: #3e3e3e;
+}
+
+.microsoft-login-btn .icon {
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+}
+
+/* Opcional: Estilo para o ícone SVG */
+.microsoft-login-btn svg {
+    width: 21px;
+    height: 21px;
+}
