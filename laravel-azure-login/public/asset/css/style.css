@@ -8,7 +8,12 @@ body {
     color: white;
 }
 
-.microsoft-login-btn a {
+.microsoft-login-btn {
+    margin-bottom: 5px;
+}
+
+.microsoft-login-btn a,
+.github-login-btn a {
     display: flex;
     /* align-items: center; */
     /* justify-content: center;  */
@@ -25,18 +30,21 @@ body {
     transition: background-color 0.2s;
 }
 
-.microsoft-login-btn a:hover {
+.microsoft-login-btn a:hover,
+.github-login-btn a:hover {
     background-color: #3e3e3e;
 }
 
-.microsoft-login-btn .icon {
+.microsoft-login-btn .icon,
+.github-login-btn .icon {
     margin-right: 12px;
     display: flex;
     align-items: center;
 }
 
 /* Opcional: Estilo para o ícone SVG */
-.microsoft-login-btn svg {
+.microsoft-login-btn svg,
+.github-login-btn svg {
     width: 21px;
     height: 21px;
 }
