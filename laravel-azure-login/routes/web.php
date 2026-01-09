@@ -12,7 +12,12 @@ Route::get('/auth/github', function () {
     return Socialite::driver('github')->redirect();
 })->name('auth.github');
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+});
+
 Route::get('/auth/github/callback', function () {
     $user = Socialite::driver('github')->user();
-    dd($user);
+    // dd($user);
+    return redirect('/dashboard');
 });
