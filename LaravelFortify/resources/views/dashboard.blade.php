@@ -27,7 +27,7 @@
 
             <hr>
 
-            <a href="">PÁGINA CONTATOS</a>
+            <a href="{{ route('contacts') }}">PÁGINA CONTATOS</a>
 
         </div>
     </div>
