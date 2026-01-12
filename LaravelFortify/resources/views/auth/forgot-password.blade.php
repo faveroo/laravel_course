@@ -21,17 +21,15 @@
                     </div>
                 </div>
             </form>
-            @if($errors->any())
-            <div class="alert alert-danger mt-4">
-                <ul class="m-0">
-                    @foreach($errors->all() as $err)
-                    <li>
-                        {{ $err }}
-                    </li>
-                    @endforeach
-                </ul>
+
+            @if(session('status') || $errors->any())
+            <div class="text-center mt-5">
+                <p>E-mail enviado com as instruções para recuperar a senha.</p>
+                <a href="{{ route('login') }}" class="btn btn-primary px-5">VOLTAR</a>
             </div>
             @endif
+
+
         </div>
     </div>
 </div>
