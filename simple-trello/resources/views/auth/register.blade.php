@@ -7,60 +7,33 @@
             <div class="card p-4 text-white">
                 <h1 class="text-center mb-4">Registro</h1>
 
-                <form action="{{ route('login') }}" method="post">
+                <form action="{{ route('register') }}" method="post">
                     @csrf
 
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Name</span>
-                        <input
-                            type="text"
-                            name="name"
-                            id="name"
-                            class="form-control"
-                            placeholder="Name"
-                            aria-describedby="name">
-                    </div>
+                    <x-form.input
+                        name="name"
+                        label="Name"
+                        placeholder="Type your name" />
 
-                    <div class="input-group mt-3">
-                        <span class="input-group-text">@</span>
-                        <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            class="form-control"
-                            placeholder="E-mail"
-                            aria-describedby="email">
-                    </div>
+                    <x-form.input
+                        name="email"
+                        type="email"
+                        label="E-mail"
+                        placeholder="Type your E-mail" />
 
-                    @error('email')
-                    <div class="invalid-feedback d-block">
-                        {{ $message }}
-                    </div>
-                    @enderror
+                    <x-form.input
+                        name="password"
+                        type="password"
+                        label="*"
+                        placeholder="Password" />
 
-                    <div class="input-group mt-3">
-                        <span class="input-group-text">*</span>
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            class="form-control"
-                            placeholder="Senha"
-                            aria-describedby="password">
-                    </div>
+                    <x-form.input
+                        name="password_confirmation"
+                        type="password"
+                        label="*"
+                        placeholder="Confirm your password" />
 
-                    <div class="input-group mt-3">
-                        <span class="input-group-text">*</span>
-                        <input
-                            type="password"
-                            name="password_confirmation"
-                            id="password"
-                            class="form-control"
-                            placeholder="Confirme a senha"
-                            aria-describedby="password">
-                    </div>
-
-                    <div class="input-group mt-5 mb-2">
+                    <div class="input-group mt-4">
                         <button type="submit" class="form-control btn btn-primary">Registrar</button>
                     </div>
                 </form>
