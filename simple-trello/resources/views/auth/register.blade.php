@@ -7,7 +7,7 @@
             <div class="card p-4 text-white">
                 <h1 class="text-center mb-4">Registro</h1>
 
-                <form action="{{ route('register') }}" method="post">
+                <form action="{{ route('register.store') }}" method="post">
                     @csrf
 
                     <x-form.input
