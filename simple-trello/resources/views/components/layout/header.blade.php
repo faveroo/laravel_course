@@ -76,9 +76,9 @@
                 <div class="modal-body px-8 py-8 space-y-8">
                     <div class="space-y-3">
                         <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500">Nome do Projeto</label>
-                        <input type="text" name="name"
-                            class="w-full bg-slate-900 border border-slate-800 rounded-none px-4 py-3 text-sm text-white focus:border-brand-accent transition-all outline-none"
-                            placeholder="Ex: Redesign">
+                        <x-form.input 
+                            name="name"
+                            placeholder="Ex: Redesign"/>
                     </div>
                     <div class="space-y-3">
                         <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500">Descrição</label>
@@ -100,9 +100,9 @@
 
 <div class="modal fade" id="inviteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-slate-950 border border-slate-800 rounded-none shadow-2xl">
+        <div class="modal-content bg-slate-950 border rounded-none shadow-2xl">
             <div class="modal-header border-slate-800 px-8 py-6">
-                <h2 class="text-xs uppercase tracking-widest font-bold text-white">Convidar Colaborador</h2>
+                <h2 class="text-xs uppercase tracking-widest font-bold text-black">Convidar Colaborador</h2>
                 <button type="button" class="btn-close btn-close-white scale-75" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('project.invite') }}" method="post">
@@ -119,13 +119,15 @@
                     </div>
                     <div class="space-y-3">
                         <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500">E-mail do Usuário</label>
-                        <input type="email" name="email"
-                            class="w-full bg-slate-900 border border-slate-800 rounded-none px-4 py-3 text-sm text-white focus:border-brand-accent transition-all outline-none"
-                            placeholder="colaborador@exemplo.com">
+                        <x-form.input
+                            type="email"
+                            name="email" 
+                            placeholder="colaborador@exemplo.com"/>
+
                     </div>
                 </div>
                 <div class="modal-footer border-slate-800 px-8 py-6 flex justify-between items-center">
-                    <button type="button" class="text-[10px] uppercase tracking-widest font-bold text-slate-500 hover:text-white transition-colors" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="text-[10px] uppercase tracking-widest font-bold text-black-500 hover:text-slate-500 transition-colors" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="px-8 py-3 bg-white text-slate-950 text-[10px] font-bold uppercase tracking-widest hover:bg-slate-200 transition-all">
                         Enviar Convite
                     </button>

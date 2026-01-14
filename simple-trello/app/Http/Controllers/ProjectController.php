@@ -25,4 +25,11 @@ class ProjectController extends Controller
             ->route('home')
             ->with('success', 'Projeto Criado');
     }
+
+    public function invite(Request $request)
+    {
+        $data = $request->validate([
+            'email' => ['email']
+        ]);
+    }
 }
