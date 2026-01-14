@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ProjectInvitationMail;
 use App\Models\Project;
+use App\Models\ProjectInvitation;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use League\CommonMark\Extension\DescriptionList\Node\Description;
 
@@ -30,7 +35,7 @@ class ProjectController extends Controller
 
     public function invite(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'project_id' => ['required'],
             'email' => [
                 'email', 
@@ -40,8 +45,31 @@ class ProjectController extends Controller
             ]
         ]);
 
-        $member = User::where('email', '=', "$data[email]")->get()->toArray();
+        $invitation = ProjectInvitation::create([
+            'project_id' => $request->project_id,
+            'invited_by' => Auth::user()->id,
+            'email' => $request->email,
+            'token' => Str::uuid()
+        ]);
 
-        dd($member);
+        Mail::to($request->email)
+            ->send(new ProjectInvitationMail($invitation));
+
+        return back()->with('success', 'Convite enviado com sucesso!');
+    }
+
+    public function accept(string $token)
+    {
+        $invitation = ProjectInvitation::where('token', $token)
+            ->whereNull('accepted_at')
+            ->firstOrFail();
+        
+        abort_if(Auth::user()->email !== $invitation->email, 403);
+
+        $invitation->project->users()->attach(Auth::id());
+        $invitation->update(['accepted_at' => Carbon::now()]);
+
+        return redirect()->route('home')
+            ->with('success', 'Você entrou no projeto!');
     }
 }
