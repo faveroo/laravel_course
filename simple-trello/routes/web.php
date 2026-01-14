@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -11,4 +12,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/project/invite', [ProjectController::class, 'invite'])->name('project.invite');
 
     Route::get('/invitation/{token}', [ProjectController::class, 'accept'])->name('invitation.accept');
+
+    Route::get('/user/my-invites', [UserController::class, 'index'])->name('user.myinvites');
 });

@@ -41,9 +41,18 @@ class ProjectController extends Controller
                 'email', 
                 'required', 
                 Rule::exists('users', 'email'),
-                Rule::notIn([Auth::user()->email])
+                Rule::notIn([Auth::user()->email]),
+                Rule::unique('project_invitations')
+                    ->where('project_id', $request->project_id)
             ]
+        ],
+        [
+            'email.unique' => 'This Email has already been invited'
         ]);
+
+        if(Project::where('users.id', Auth::id())->exists()) {
+
+        }
 
         $invitation = ProjectInvitation::create([
             'project_id' => $request->project_id,
@@ -69,7 +78,7 @@ class ProjectController extends Controller
         $invitation->project->users()->attach(Auth::id());
         $invitation->update(['accepted_at' => Carbon::now()]);
 
-        return redirect()->route('home')
+        return back()
             ->with('success', 'Você entrou no projeto!');
     }
 }

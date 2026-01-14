@@ -3,7 +3,7 @@
         <div class="flex justify-between h-20 items-center">
             <!-- Logo area -->
             <div class="flex items-center gap-12">
-                <a href="{{ route('home') }}" class="flex items-center gap-3">
+                <a href="{{ route('home') }}" class="flex items-center gap-3 text-decoration-none">
                     <div class="w-8 h-8 bg-white rounded flex items-center justify-center">
                         <svg class="w-5 h-5 text-slate-950" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 14H7v-2h4v2zm4-4H7v-2h8v2zm0-4H7V7h8v2z" />
@@ -25,6 +25,12 @@
                         data-bs-toggle="modal">
                         Convidar
                     </button>
+                    <a href="{{  route('user.myinvites') }}" class="text-decoration-none">
+                        <button type="button"
+                            class="text-sm font-medium hover:text-white transition-all flex items-center gap-2 {{ request()->routeIs('user.myinvites') ? 'text-white' : 'text-slate-400' }}">
+                            Meus Convites
+                        </button>
+                    </a>
                 </div>
             </div>
 
