@@ -8,4 +8,60 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-brand-primary: #f8fafc;
+    /* Minimalist White/Slate-50 */
+    --color-brand-accent: #38bdf8;
+    /* Subtle Sky Blue */
+
+    --color-bg-dark: #020617;
+    /* Deep Slate-950 */
+    --color-card-dark: #0f172a;
+    /* Slate-900 */
+    --color-border-dark: #1e293b;
+    /* Slate-800 */
+}
+
+@layer utilities {
+    .minimal-card {
+        @apply bg-slate-900/40 border border-slate-800/60 hover:border-slate-700/80 transition-all duration-300;
+    }
+
+    .minimal-glass {
+        @apply bg-slate-950/80 backdrop-blur-md border-b border-slate-800/50;
+    }
+
+    .accent-bg {
+        @apply bg-brand-accent text-slate-950;
+    }
+
+    .accent-border {
+        @apply border-brand-accent;
+    }
+
+    .accent-text {
+        @apply text-brand-accent;
+    }
+}
+
+/* Premium Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-slate-900;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-slate-700 rounded-full hover:bg-slate-600 transition-colors;
+}
+
+/* Global Transitions */
+* {
+    @apply transition-colors duration-200;
+}
+
+.modal-backdrop {
+    @apply backdrop-blur-sm bg-slate-950/60;
 }
