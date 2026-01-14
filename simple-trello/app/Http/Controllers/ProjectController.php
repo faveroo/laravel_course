@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use League\CommonMark\Extension\DescriptionList\Node\Description;
 
 class ProjectController extends Controller
@@ -29,7 +31,17 @@ class ProjectController extends Controller
     public function invite(Request $request)
     {
         $data = $request->validate([
-            'email' => ['email']
+            'project_id' => ['required'],
+            'email' => [
+                'email', 
+                'required', 
+                Rule::exists('users', 'email'),
+                Rule::notIn([Auth::user()->email])
+            ]
         ]);
+
+        $member = User::where('email', '=', "$data[email]")->get()->toArray();
+
+        dd($member);
     }
 }
