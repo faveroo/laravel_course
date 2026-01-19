@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticable;
@@ -17,4 +18,23 @@ class User extends Authenticable
     protected $casts = [
         'password' => 'hashed'
     ];
+
+    public function scopeActive(Builder $query)
+    {
+        return $query->where('active', true);
+    }
+
+    public function scopeVerified(Builder $query)
+    {
+        return $query->whereNotNull('verified_at');
+    }
+
+    public function scopeNotBlocked(Builder $query)
+    {
+        return $query->where(function ($q) {
+            $q->whereNull('blocked_until')
+              ->orWhere('blocked_until', '<=', now());
+        });
+    }
+
 }

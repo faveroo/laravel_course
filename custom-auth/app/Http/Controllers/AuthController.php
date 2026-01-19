@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
 class AuthController extends Controller
@@ -12,18 +16,61 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function authenticate(Request $request)
+    public function authenticate(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
-            'username' => ['required', 'min:3', 'max:30', 'exists:users,email'],
-            'password' => ['min:6', 'max:255', 'required']
-        ]);
+            'username' => ['required', 
+                            'min:3', 
+                            'max:30', ],
+            'password' => ['required', 
+                            Password::min(6)
+                                    ->letters()
+                                    ->numbers()]
+        ],
+        [
+            'username.required' => 'O usuário é obrigatório.',
+            'username.min' => 'O usuário deve ter no mínimo :min caracteres.',
+            'username.max' => 'O usuário deve ter no máximo :max caracteres.',
+            'password.required' => 'A senha é obrigatória.',
+        ]
+        );
 
-        dd($credentials);
+        $user = User::where('username', $credentials['username'])
+                    ->active()
+                    ->verified()
+                    ->notBlocked()
+                    ->first();
+
+        if(!$user) {
+            return back()->withInput()->withErrors([
+                'invalid_login' => 'Login inválido.'
+            ]);
+        }
+
+        if(!password_verify($credentials['password'], $user->password)) {
+            return back()->withInput()->withErrors([
+                'invalid_login' => 'Login inválido'
+            ]);
+        }
+
+        $user->last_login = now();
+        $user->blocked_until = null;
+        $user->save();
+
+        $request->session()->regenerate();
+        Auth::login($user);
+
+        return redirect()->intended(route('home'));
     }
 
-    public function register()
+    public function register(): View
     {
-        return "ok";
+        return view('auth.register');
+    }
+
+    public function logout(): RedirectResponse
+    {
+        Auth::logout();
+        return redirect()->route('login');
     }
 }
