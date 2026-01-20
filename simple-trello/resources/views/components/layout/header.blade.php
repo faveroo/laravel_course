@@ -1,165 +1,195 @@
-<nav class="sticky top-0 z-50 minimal-glass mb-12">
+<nav class="sticky top-0 z-50 bg-slate-950 border-b border-slate-800 mb-12" x-data>
     <div class="max-w-7xl mx-auto px-6">
         <div class="flex justify-between h-20 items-center">
-            <!-- Logo area -->
+            <!-- Logo + Actions -->
             <div class="flex items-center gap-12">
-                <a href="{{ route('home') }}" class="flex items-center gap-3 text-decoration-none">
+                <a href="{{ route('home') }}" class="flex items-center gap-3">
                     <div class="w-8 h-8 bg-white rounded flex items-center justify-center">
                         <svg class="w-5 h-5 text-slate-950" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 14H7v-2h4v2zm4-4H7v-2h8v2zm0-4H7V7h8v2z" />
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5z" />
                         </svg>
                     </div>
-                    <span class="text-lg font-bold tracking-tight text-white">Trello</span>
+                    <span class="text-lg font-bold text-white">Trello</span>
                 </a>
-
                 <div class="hidden md:flex items-center gap-6">
-                    <button type="button"
-                        class="text-sm font-medium text-slate-400 hover:text-white transition-all flex items-center gap-2"
-                        data-bs-target="#createProject"
-                        data-bs-toggle="modal">
+                    <button
+                        @click="$dispatch('open-modal', { id: 'createProject' })"
+                        class="text-sm font-medium text-slate-400 hover:text-white">
                         Novo Projeto
                     </button>
-                    <button type="button"
-                        class="text-sm font-medium text-slate-400 hover:text-white transition-all flex items-center gap-2"
-                        data-bs-target="#inviteModal"
-                        data-bs-toggle="modal">
+
+                    <button
+                        @click="$dispatch('open-modal', { id: 'inviteModal' })"
+                        class="text-sm font-medium text-slate-400 hover:text-white">
                         Convidar
                     </button>
-                    <a href="{{  route('user.myinvites') }}" class="text-decoration-none">
-                        <button type="button"
-                            class="text-sm font-medium hover:text-white transition-all flex items-center gap-2 {{ request()->routeIs('user.myinvites') ? 'text-white' : 'text-slate-400' }}">
-                            Meus Convites
-                        </button>
+
+                    <a href="{{ route('user.myinvites') }}"
+                       class="text-sm font-medium {{ request()->routeIs('user.myinvites') ? 'text-white' : 'text-slate-400 hover:text-white' }}">
+                        Meus Convites
                     </a>
                 </div>
             </div>
 
-            <!-- User area -->
-            <div class="flex items-center gap-6">
-                <div class="dropdown">
-                    <button class="flex items-center gap-3 text-white dropdown-toggle border-none bg-transparent"
-                        type="button"
-                        data-bs-toggle="dropdown">
-                        <span class="text-sm font-medium text-slate-400">{{ auth()->user()->name }}</span>
-                        <div class="w-10 h-10 rounded bg-slate-800 border border-slate-700 flex items-center justify-center text-sm font-bold">
-                            {{ substr(auth()->user()->name, 0, 1) }}
-                        </div>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end bg-slate-900 border border-slate-800 mt-2 p-1 shadow-2xl">
-                        <li>
-                            <a class="dropdown-item py-2 px-4 text-slate-300 hover:text-white hover:bg-slate-800 rounded-sm text-sm" href="#">
-                                Perfil
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider border-slate-800">
-                        </li>
-                        <li>
-                            <form action="{{ route('logout') }}" method="POST">
-                                @csrf
-                                <button type="submit" class="dropdown-item py-2 px-4 text-rose-400 hover:bg-rose-500/10 rounded-sm text-sm">
-                                    Sair
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
+            <!-- User Dropdown -->
+            <div x-data="{ open: false }" class="relative">
+                <button @click="open = !open" class="flex items-center gap-3">
+                    <span class="text-sm text-slate-400">{{ auth()->user()->name }}</span>
+                    <div class="w-10 h-10 bg-slate-800 border border-slate-700 flex items-center justify-center text-white font-bold">
+                        {{ substr(auth()->user()->name,0,1) }}
+                    </div>
+                </button>
+
+                <div x-show="open" @click.outside="open=false"
+                     x-transition
+                     class="absolute right-0 mt-3 w-44 bg-slate-900 border border-slate-800 shadow-2xl">
+                    <a href="#" class="block px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-white">
+                        Perfil
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button class="w-full text-left px-4 py-2 text-sm text-rose-400 hover:bg-rose-500/10">
+                            Sair
+                        </button>
+                    </form>
                 </div>
             </div>
+
         </div>
     </div>
 </nav>
 
-<!-- Modals -->
-<div class="modal fade" id="createProject" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-slate-950 border border-slate-800 rounded-none shadow-2xl">
-            <div class="modal-header border-slate-800 px-8 py-6">
-                <h2 class="text-xs uppercase tracking-widest font-bold text-white">Novo Projeto</h2>
-                <button type="button" class="btn-close btn-close-white scale-75" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="{{ route('project.store') }}" method="post">
-                @csrf
-                <div class="modal-body px-8 py-8 space-y-8">
-                    <div class="space-y-3">
-                        <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500">Nome do Projeto</label>
-                        <x-form.input 
-                            name="name"
-                            placeholder="Ex: Redesign"/>
-                    </div>
-                    <div class="space-y-3">
-                        <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500">Descrição</label>
-                        <textarea name="description" rows="3"
-                            class="w-full bg-slate-900 border border-slate-800 rounded-none px-4 py-3 text-sm text-white focus:border-brand-accent transition-all outline-none"
-                            placeholder="Opcional"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer border-slate-800 px-8 py-6 flex justify-between items-center">
-                    <button type="button" class="text-[10px] uppercase tracking-widest font-bold text-slate-500 hover:text-white transition-colors" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="px-8 py-3 bg-white text-slate-950 text-[10px] font-bold uppercase tracking-widest hover:bg-slate-200 transition-all">
-                        Criar Projeto
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+{{-- ================= MODALS ================= --}}
 
-<div class="modal fade" id="inviteModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-slate-950 border rounded-none shadow-2xl">
-            <div class="modal-header border-slate-800 px-8 py-6">
-                <h2 class="text-xs uppercase tracking-widest font-bold text-black">Convidar Colaborador</h2>
-                <button type="button" class="btn-close btn-close-white scale-75" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form action="{{ route('project.invite') }}" method="post">
-                @csrf
-                <div class="modal-body px-8 py-8 space-y-8">
-                    <div class="space-y-3">
-                        <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500">Escolha o Projeto</label>
-                        <select name="project_id" class="w-full bg-slate-900 border border-slate-800 rounded-none px-4 py-3 text-sm text-white focus:border-brand-accent outline-none">
-                            <option value="">Selecione...</option>
-                            @foreach(auth()->user()->ownedProjects as $project)
-                            <option value="{{ $project->id }}">{{ $project->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="space-y-3">
-                        <label class="text-[10px] uppercase tracking-widest font-bold text-slate-500">E-mail do Usuário</label>
-                        <x-form.input
-                            type="email"
-                            name="email" 
-                            placeholder="colaborador@exemplo.com"/>
+{{-- CREATE PROJECT --}}
+<div
+    x-data="{ open: false }"
+    x-on:open-modal.window="if ($event.detail.id === 'createProject') open = true"
+    x-show="open"
+    x-transition
+    class="fixed inset-0 z-[999] flex items-center justify-center bg-black/60"
+>
+    <div @click.outside="open=false"
+         class="bg-slate-950 border border-slate-800 w-full max-w-lg shadow-2xl">
 
-                    </div>
-                </div>
-                <div class="modal-footer border-slate-800 px-8 py-6 flex justify-between items-center">
-                    <button type="button" class="text-[10px] uppercase tracking-widest font-bold text-black-500 hover:text-slate-500 transition-colors" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="px-8 py-3 bg-white text-slate-950 text-[10px] font-bold uppercase tracking-widest hover:bg-slate-200 transition-all">
-                        Enviar Convite
-                    </button>
-                </div>
-            </form>
-        </div>
+        <form method="POST" action="{{ route('project.store') }}">
+            @csrf
+
+            <div class="px-8 py-6 border-b border-slate-800 flex justify-between">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-white">
+                    Novo Projeto
+                </h2>
+                <button type="button" @click="open=false" class="text-slate-400 hover:text-white">✕</button>
+            </div>
+            <input type="hidden" name="invite_type" value="none">
+            <div class="px-8 py-8 space-y-6">
+                <x-form.input name="name" placeholder="Ex: Redesign"/>
+                <textarea name="description"
+                    class="w-full bg-slate-900 border border-slate-800 px-4 py-3 text-sm text-white"
+                    placeholder="Descrição opcional"></textarea>
+            </div>
+
+            <div class="px-8 py-6 border-t border-slate-800 flex justify-end">
+                <button class="px-8 py-3 bg-white text-slate-950 text-xs font-bold uppercase">
+                    Criar Projeto
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
 
-@php
-$modalId = null;
+{{-- INVITE MODAL --}}
+<div
+    x-data="{ open: false }"
+    x-on:open-modal.window="if ($event.detail.id === 'inviteModal') open = true"
+    x-show="open"
+    x-transition
+    class="fixed inset-0 z-[999] flex items-center justify-center bg-black/60"
+>
+    <div @click.outside="open=false"
+         class="bg-slate-950 border border-slate-800 w-full max-w-lg shadow-2xl">
 
-if ($errors->has('name')) {
-$modalId = 'createProject';
-} elseif ($errors->has('email')) {
-$modalId = 'inviteModal';
-}
-@endphp
+        <form method="POST" action="{{ route('project.invite') }}">
+            @csrf
 
-@if ($modalId)
+            <div class="px-8 py-6 border-b border-slate-800 flex justify-between">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-white">
+                    Convidar Colaborador
+                </h2>
+                <button type="button" @click="open=false" class="text-slate-400 hover:text-white">✕</button>
+            </div>
+
+            <div class="px-8 py-8 space-y-6">
+                <select name="project_id"
+                    class="w-full bg-slate-900 border border-slate-800 px-4 py-3 text-sm text-white">
+                    <option value="">Selecione o projeto</option>
+                    @foreach(auth()->user()->ownedProjects as $project)
+                        <option value="{{ $project->id }}">{{ $project->name }}</option>
+                    @endforeach
+                </select>
+
+                <input type="hidden" name="invite_type" value="manual">
+                
+                <x-form.input type="email" name="email" placeholder="email@exemplo.com"/>
+            </div>
+
+            <div class="px-8 py-6 border-t border-slate-800 flex justify-end">
+                <button class="px-8 py-3 bg-white text-slate-950 text-xs font-bold uppercase">
+                    Enviar Convite
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- InviteAutoModal -->
+<div
+    x-data="{ open: false, projectId: null }"
+    x-on:open-modal.window="
+        if ($event.detail.id === 'inviteProjectModal') open = true
+    "
+    x-show="open"
+    x-cloak
+    x-transition
+    class="fixed inset-0 z-[999] flex items-center justify-center bg-black/60"
+>
+    <div @click.outside="open=false"
+         class="bg-slate-950 border border-slate-800 w-full max-w-lg shadow-2xl">
+        <form method="POST" action="{{ route('project.invite') }}">
+            @csrf
+
+            <div class="px-8 py-6 border-b border-slate-800 flex justify-between">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-white">
+                    Convidar Colaborador
+                </h2>
+                <button type="button" @click="open=false" class="text-slate-400 hover:text-white">✕</button>
+            </div>
+
+            <div class="px-8 py-8 space-y-6">
+                <input type="hidden" name="project_id" :value="projectId">
+                <input type="hidden" name="invite_type" value="auto">
+                <x-form.input type="email" name="email" placeholder="email@exemplo.com"/>
+            </div>
+
+            <div class="px-8 py-6 border-t border-slate-800 flex justify-end">
+                <button class="px-8 py-3 bg-white text-slate-950 text-xs font-bold uppercase">
+                    Enviar Convite
+                </button>
+            </div>
+    </div>
+</div>
+
+@if (session('open_modal'))
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        new bootstrap.Modal(
-            document.getElementById(@json($modalId))
-        ).show();
+    document.addEventListener('DOMContentLoaded', () => {
+        Alpine.nextTick(()=> {
+            window.dispatchEvent(
+                new CustomEvent('open-modal', {
+                    detail: { id: @json(session('open_modal')) }
+                })
+            );
+        })
     });
 </script>
 @endif

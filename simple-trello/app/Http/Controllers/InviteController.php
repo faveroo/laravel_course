@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -16,23 +17,29 @@ class InviteController extends Controller
 {
     public function invite(Request $request)
     {
-        $request->validate([
-            'project_id' => ['required'],
-            'email' => [
-                'email', 
-                'required', 
-                Rule::exists('users', 'email'),
-                Rule::notIn([Auth::user()->email]),
-                Rule::unique('project_invitations')
-                    ->where('project_id', $request->project_id)
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'invite_type' => ['required', Rule::in(['auto', 'manual'])],
+                'project_id'  => ['required', 'exists:projects,id'],
+                'email'       => [
+                    'required',
+                    'email',
+                    Rule::exists('users', 'email'),
+                    Rule::notIn([Auth::user()->email]),
+                    Rule::unique('project_invitations')
+                        ->where('project_id', $request->project_id),
+                ],
             ]
-        ],
-        [
-            'email.unique' => 'This Email has already been invited'
-        ]);
+        );
 
-        if(Project::where('users.id', Auth::id())->exists()) {
+        if ($validator->fails()) {
+            $modal = $request->invite_type === 'auto' ? 'inviteProjectModal' : ($request->invite_type === 'manual' ? 'inviteModal' : 'createProject');
 
+            return back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('open_modal', $modal);
         }
 
         $invitation = ProjectInvitation::create([

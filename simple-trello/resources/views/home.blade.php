@@ -1,10 +1,10 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="max-w-7xl mx-auto px-6 pb-24">
+<div class="max-w-7xl mx-auto px-6 pb-24" x-data>
     <!-- Header -->
     <header class="mb-16">
-        <h1 class="text-3xl font-light text-slate-100 tracking-tight">
+        <h1 class="text-3xl font-light text-slate-500 tracking-tight">
             Bem-vindo, <span class="font-bold border-b-2 border-brand-accent">{{ explode(' ', auth()->user()->name)[0] }}</span>.
         </h1>
         <p class="text-slate-500 mt-2 text-sm uppercase tracking-widest font-medium">Dashboard Overview</p>
@@ -28,7 +28,8 @@
                             <a href="{{ route('project.show', Crypt::encrypt($project->id)) }}" class="text-decoration-none">
                             <h3 class="text-lg font-bold text-white group-hover:text-brand-accent transition-colors">{{ $project->name }}</h3>
                             </a>
-                            <button class="text-slate-600 hover:text-white transition-colors" onclick="document.querySelector('#inviteModal select').value = '{{ $project->id }}'" data-bs-target="#inviteModal" data-bs-toggle="modal">
+                            <button type="button" class="text-slate-600 hover:text-white transition-colors" 
+                                @click="$dispatch('open-modal', { projectId: {{ $project->id }}, id: 'inviteProjectModal' })">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                                 </svg>
@@ -106,7 +107,8 @@
             <div class="p-8 bg-slate-900 border border-slate-800 rounded-sm">
                 <h3 class="text-sm font-bold text-white mb-4">Equipe</h3>
                 <p class="text-slate-500 text-xs leading-relaxed mb-6">Convide novos membros para seus projetos e colabore em tempo real.</p>
-                <button class="w-full py-3 bg-white text-slate-950 text-[10px] font-bold uppercase tracking-widest hover:bg-slate-200 transition-colors" data-bs-target="#inviteModal" data-bs-toggle="modal">
+                <button type="button" class="w-full py-3 bg-white text-slate-950 text-[10px] font-bold uppercase tracking-widest hover:bg-slate-200 transition-colors"
+                @click="$dispatch('open-modal', { id: 'inviteModal'})">
                     Convidar
                 </button>
             </div>
