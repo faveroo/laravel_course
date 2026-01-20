@@ -68,6 +68,23 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
+    public function store(Request $request)
+    {
+        $credentials = $request->validate(
+            [
+                'username' => ['required', 'min:3', 'max:30', 'unique:users'],
+                'email' => ['required', 'email', 'unique:users'],
+                'password' => ['required', Password::min(6)
+                                                   ->letters()
+                                                   ->numbers()
+                                                   ->symbols(), 
+                                                   'confirmed']
+            ]
+        );
+
+        dd($credentials);
+    }
+
     public function logout(): RedirectResponse
     {
         Auth::logout();

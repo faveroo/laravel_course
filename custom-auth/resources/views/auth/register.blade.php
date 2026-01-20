@@ -5,36 +5,41 @@
                 <div class="card p-5">
                     <p class="display-6 text-center">CRIAR NOVA CONTA</p>
 
-                    <form action="#" method="post">
-
+                    <form action="{{ route('store') }}" method="post">
+                        @csrf
                         <div class="mb-3">
                             <label for="username" class="form-label">Usuário</label>
                             <input type="text" class="form-control" id="username" name="username">
-                            <div class="text-danger">[mensagem de erro]</div>
+                            @error('username')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email">
-                            <div class="text-danger">[mensagem de erro]</div>
+                            @error('email')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="password" class="form-label">Senha</label>
                             <input type="password" class="form-control" id="password" name="password">
-                            <div class="text-danger">[mensagem de erro]</div>
+                            @error('password')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="mb-3">
-                            <label for="password_confirmation " class="form-label">Confirmar senha</label>
-                            <input type="password" class="form-control" id="password_confirmation " name="password_confirmation ">
-                            <div class="text-danger">[mensagem de erro]</div>
+                            <label for="password_confirmation" class="form-label">Confirmar senha</label>
+                            <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
                         </div>
 
                         <div class="row mt-4">
                             <div class="col">
                                 <div class="mb-3">
-                                    <a href="#">Já tenho conta de usuário</a>
+                                    <a href="{{ route('login') }}">Já tenho conta de usuário</a>
                                 </div>
                                 <div>
                                     <a href="#">Esqueci a minha senha</a>
@@ -47,10 +52,11 @@
 
                     </form>
 
-                    <div class="alert alert-danger text-center mt-3">
-                        [mensagem de erro]
-                    </div>
-
+                    @if(@session('invalid_register'))
+                        <div class="alert alert-danger text-center mt-3">
+                            {{ session('invalid_register') }}
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
