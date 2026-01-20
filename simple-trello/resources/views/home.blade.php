@@ -25,7 +25,9 @@
                     @forelse($ownedProjects as $project)
                     <div class="bg-slate-950 p-8 hover:bg-slate-900 transition-colors group relative">
                         <div class="flex justify-between items-start mb-6">
+                            <a href="{{ route('project.show', Crypt::encrypt($project->id)) }}" class="text-decoration-none">
                             <h3 class="text-lg font-bold text-white group-hover:text-brand-accent transition-colors">{{ $project->name }}</h3>
+                            </a>
                             <button class="text-slate-600 hover:text-white transition-colors" onclick="document.querySelector('#inviteModal select').value = '{{ $project->id }}'" data-bs-target="#inviteModal" data-bs-toggle="modal">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>

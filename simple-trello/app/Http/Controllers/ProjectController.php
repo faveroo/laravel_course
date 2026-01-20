@@ -9,9 +9,11 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 use League\CommonMark\Extension\DescriptionList\Node\Description;
 
 class ProjectController extends Controller
@@ -33,52 +35,26 @@ class ProjectController extends Controller
             ->with('success', 'Projeto Criado');
     }
 
-    public function invite(Request $request)
+    public function list()
     {
-        $request->validate([
-            'project_id' => ['required'],
-            'email' => [
-                'email', 
-                'required', 
-                Rule::exists('users', 'email'),
-                Rule::notIn([Auth::user()->email]),
-                Rule::unique('project_invitations')
-                    ->where('project_id', $request->project_id)
-            ]
-        ],
-        [
-            'email.unique' => 'This Email has already been invited'
-        ]);
-
-        if(Project::where('users.id', Auth::id())->exists()) {
-
-        }
-
-        $invitation = ProjectInvitation::create([
-            'project_id' => $request->project_id,
-            'invited_by' => Auth::user()->id,
-            'email' => $request->email,
-            'token' => Str::uuid()
-        ]);
-
-        Mail::to($request->email)
-            ->send(new ProjectInvitationMail($invitation));
-
-        return back()->with('success', 'Convite enviado com sucesso!');
+        $projects = User::find(Auth::id())->projects;
+        
+        return view('projects', compact('projects'));
     }
 
-    public function accept(string $token)
+    public function index(string $hash)
     {
-        $invitation = ProjectInvitation::where('token', $token)
-            ->whereNull('accepted_at')
-            ->firstOrFail();
-        
-        abort_if(Auth::user()->email !== $invitation->email, 403);
+        try {
+            $id = Crypt::decrypt($hash);
+        } catch (\Exception $e) {
+            abort(403, 'ID inválido');
+        }
 
-        $invitation->project->users()->attach(Auth::id());
-        $invitation->update(['accepted_at' => Carbon::now()]);
+        $project = Project::with([
+            'users',
+            'tasks'
+        ])->findOrFail($id);
 
-        return back()
-            ->with('success', 'Você entrou no projeto!');
+        return view('project.project', compact('project'));
     }
 }
