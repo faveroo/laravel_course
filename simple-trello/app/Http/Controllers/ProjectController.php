@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\ProjectInvitationMail;
 use App\Models\Project;
 use App\Models\ProjectInvitation;
+use App\Models\Task;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -50,11 +51,21 @@ class ProjectController extends Controller
             abort(403, 'ID inválido');
         }
 
-        $project = Project::with([
-            'users',
-            'tasks'
-        ])->findOrFail($id);
+        $pending = Task::with('assignedTo')
+            ->where('project_id', $id)
+            ->pendentes()
+            ->get();
+        
+        $going = Task::with('assignedTo')
+            ->where('project_id', $id)
+            ->emAndamento()
+            ->get();
 
-        return view('project.project', compact('project'));
+        $finished = Task::with('assignedTo')
+            ->where('project_id', $id)
+            ->concluidas()
+            ->get();
+
+        return view('project.project', compact('pending', 'going', 'finished'));
     }
 }
