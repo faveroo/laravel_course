@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Task extends Model
 {
     const STATUS_PENDENTE = 'pendente';
-    const STATUS_EM_ANDAMENTO = 'andamento';
+    const STATUS_EM_ANDAMENTO = 'em_andamento';
     const STATUS_CONCLUIDO = 'concluida';
 
     protected $fillable = [
