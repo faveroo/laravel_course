@@ -3,6 +3,7 @@
 use App\Http\Controllers\InviteController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/project/invite', [InviteController::class, 'invite'])->name('project.invite');
 
     Route::get('/invitation/{token}', [InviteController::class, 'accept'])->name('invitation.accept');
+
+    Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('update.status');
 
     Route::get('/user/my-invites', [UserController::class, 'index'])->name('user.myinvites');
 });
