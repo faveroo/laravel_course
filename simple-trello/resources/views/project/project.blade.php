@@ -19,10 +19,10 @@
                     A Fazer
                 </h2>
             </div>
+            <div class="space-y-3 min-h-[80px]" data-status="pendente">
             @forelse ($pending as $p)
-                <div class="space-y-3">
-                    <div class="bg-slate-900 border border-slate-700 p-4 rounded-lg text-white hover:border-slate-600 transition-colors cursor-grab active:cursor-grabbing">
-                        <div class="flex items-center gap3">
+                    <div class="kanban-item bg-slate-900 border border-slate-700 p-4 rounded-lg text-white hover:border-slate-600 transition-colors cursor-grab active:cursor-grabbing"  data-id="{{ $p->id }}">
+                        <div class="flex items-center gap-3">
                             <p class="text-sm flex-1">
                                 {{ $p->description }}
                             </p>
@@ -32,14 +32,14 @@
                             </div>
                         </div>
                     </div>
+                    @empty
+                    <div class="space-y-3">
+                        <div data-empty class=" kanban-empty border border-slate-700 p-4 flex justify-center rounded-lg hover:border-slate-600 transition-colors cursor-grab active:cursor-grabbing text-slate-400">
+                            <p class="text-sm">Não há tarefas pendentes</p>
+                        </div>
+                    </div>
+                    @endforelse
                 </div>
-            @empty
-            <div class="space-y-3">
-                <div class="border border-slate-700 p-4 flex justify-center rounded-lg hover:border-slate-600 transition-colors cursor-grab active:cursor-grabbing text-slate-400">
-                    <p class="text-sm">Não há tarefas pendentes</p>
-                </div>
-            </div>
-            @endforelse
         </div>
 
         <!-- PENDING -->
@@ -51,25 +51,27 @@
                 </h2>
             </div>
 
+            <div class="space-y-3 min-h-[80px]" data-status="em_andamento">
             @forelse($going as $g)
-            <div class="space-y-3">
-                <div class="bg-slate-900 border border-slate-700 p-4 rounded-lg text-white hover:border-slate-600 transition-colors cursor-grab active:cursor-grabbing">
-                    <div class="flex items-center gap3">
-                        <p class="text-sm">{{ $g->description }}</p>
+                <div class="kanban-item bg-slate-900 border border-slate-700 p-4 rounded-lg text-white hover:border-slate-600 transition-colors cursor-grab active:cursor-grabbing"  data-id="{{ $g->id }}">
+                    <div class="flex items-center gap-3">
+                        <p class="text-sm flex-1">
+                            {{ $g->description }}
+                        </p>
                         
                         <div class="w-6 h-6 rounded-sm bg-slate-800 flex items-center justify-center text-[9px] font-bold text-slate-400" title="{{ $g->assignedTo->name }}">
                                 {{ substr($g->assignedTo->name, 0, 1) }}
                         </div>
                     </div>
                 </div>
-            </div>
-            @empty
-            <div class="space-y-3">
-                <div class="border border-slate-700 p-4 flex justify-center rounded-lg hover:border-slate-600 transition-colors cursor-grab active:cursor-grabbing text-slate-400">
-                    <p class="text-sm">Não há tarefas em andamento</p>
+                @empty
+                <div class="space-y-3">
+                    <div data-empty class="kanban-empty border border-slate-700 p-4 flex justify-center rounded-lg hover:border-slate-600 transition-colors cursor-grab active:cursor-grabbing text-slate-400">
+                        <p class="text-sm">Não há tarefas em andamento</p>
+                    </div>
                 </div>
+                @endforelse
             </div>
-            @endforelse
         </div>
 
         <!-- FINISHED -->
@@ -80,28 +82,30 @@
                     Concluído
                 </h2>
             </div>
+            <div class="space-y-3 min-h-[80px]" data-status="concluida">
             @forelse ($finished as $f)
-            <div class="space-y-3">
-                <div class="bg-slate-900 border border-slate-700 p-4 rounded-lg text-slate-400 line-through opacity-60 hover:border-slate-600 transition-colors cursor-grab active:cursor-grabbing">
+                <div class="kanban-item bg-slate-900 border border-slate-700 p-4 rounded-lg text-slate-400 line-through opacity-60 hover:border-slate-600 transition-colors cursor-grab active:cursor-grabbing" data-id="{{ $f->id }}">
                     <div class="flex items-center gap-3">
-                        <p class="text-sm">{{ $f->description }}</p>
+                        <p class="text-sm flex-1">{{ $f->description }}</p>
                         
                         <div class="w-6 h-6 rounded-sm bg-slate-800 flex items-center justify-center text-[9px] font-bold text-slate-400" title="{{ $f->assignedTo->name }}">
                                 {{ substr($f->assignedTo->name, 0, 1) }}
                         </div>
                     </div>
                 </div>
-            </div>
-            @empty
-            <div class="space-y-3">
-                <div class="border border-slate-700 p-4 flex justify-center rounded-lg hover:border-slate-600 transition-colors cursor-grab active:cursor-grabbing text-slate-400">
-                    <p class="text-sm">Não há tarefas concluídas</p>
+                @empty
+                <div class="space-y-3">
+                    <div data-empty class="kanban-empty border border-slate-700 p-4 flex justify-center rounded-lg hover:border-slate-600 transition-colors cursor-grab active:cursor-grabbing text-slate-400">
+                        <p class="text-sm">Não há tarefas concluídas</p>
+                    </div>
                 </div>
+                @endforelse
             </div>
-            @endforelse
         </div>
 
     </div>
 </div>
 
+
 @endsection
+

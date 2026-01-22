@@ -1,8 +1,8 @@
-<nav class="sticky top-0 z-50 bg-slate-950 border-b border-slate-800 mb-12" x-data>
+<nav class="sticky top-0 z-50 bg-slate-950 border-b border-slate-800 mb-12">
     <div class="max-w-7xl mx-auto px-6">
         <div class="flex justify-between h-20 items-center">
             <!-- Logo + Actions -->
-            <div class="flex items-center gap-12">
+            <div class="flex items-center gap-12" x-data>
                 <a href="{{ route('home') }}" class="flex items-center gap-3">
                     <div class="w-8 h-8 bg-white rounded flex items-center justify-center">
                         <svg class="w-5 h-5 text-slate-950" fill="currentColor" viewBox="0 0 24 24">
@@ -13,13 +13,13 @@
                 </a>
                 <div class="hidden md:flex items-center gap-6">
                     <button
-                        @click="$dispatch('open-modal', { id: 'createProject' })"
+                        @click.stop="$dispatch('open-modal', { id: 'createProject' })"
                         class="text-sm font-medium text-slate-400 hover:text-white">
                         Novo Projeto
                     </button>
 
                     <button
-                        @click="$dispatch('open-modal', { id: 'inviteModal' })"
+                        @click.stop="$dispatch('open-modal', { id: 'inviteModal' })"
                         class="text-sm font-medium text-slate-400 hover:text-white">
                         Convidar
                     </button>
