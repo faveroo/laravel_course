@@ -92,7 +92,7 @@
                 <div class="space-y-6">
                     @forelse($pendingTasks as $task)
                     <div class="group border-l border-slate-800 hover:border-brand-accent pl-4 transition-all">
-                        <p class="text-sm font-bold text-white group-hover:text-brand-accent transition-colors truncate">{{ $task->title }}</p>
+                        <p class="text-sm font-bold text-black-400 group-hover:text-brand-accent transition-colors truncate">{{ $task->title }}</p>
                         <p class="text-[10px] text-slate-600 uppercase tracking-tight mt-1">{{ $task->project->name }}</p>
                         <div class="mt-2 text-[9px] font-bold px-1.5 py-0.5 inline-block {{ $task->status === 'em_andamento' ? 'bg-brand-accent/10 text-brand-accent' : 'bg-slate-900 text-slate-500' }} rounded-sm">
                             {{ $task->status === 'em_andamento' ? 'DOING' : 'TODO' }}
