@@ -29,7 +29,7 @@
                             <h3 class="text-lg font-bold text-white group-hover:text-brand-accent transition-colors">{{ $project->name }}</h3>
                             </a>
                             <button type="button" class="text-slate-600 hover:text-white transition-colors" 
-                                @click="$dispatch('open-modal', { projectId: {{ $project->id }}, id: 'inviteProjectModal' })">
+                                @click.stop="$dispatch('open-modal', { projectId: {{ $project->id }}, id: 'inviteProjectModal' })">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
                                 </svg>
@@ -52,7 +52,9 @@
                     @empty
                     <div class="bg-slate-950 col-span-full py-16 text-center">
                         <p class="text-slate-600 text-sm italic">Nenhum projeto criado ainda.</p>
-                        <button class="mt-4 text-xs font-bold text-brand-accent uppercase tracking-widest hover:underline" data-bs-target="#createProject" data-bs-toggle="modal">Criar Projeto</button>
+                        <button type="button" class="mt-4 text-xs font-bold text-brand-accent uppercase tracking-widest hover:underline" 
+                        @click.stop="$dispatch('open-modal', { id: 'createProject' })"
+                        >Criar Projeto</button>
                     </div>
                     @endforelse
                 </div>
@@ -108,7 +110,7 @@
                 <h3 class="text-sm font-bold text-white mb-4">Equipe</h3>
                 <p class="text-slate-500 text-xs leading-relaxed mb-6">Convide novos membros para seus projetos e colabore em tempo real.</p>
                 <button type="button" class="w-full py-3 bg-white text-slate-950 text-[10px] font-bold uppercase tracking-widest hover:bg-slate-200 transition-colors"
-                @click="$dispatch('open-modal', { id: 'inviteModal'})">
+                @click.stop="$dispatch('open-modal', { id: 'inviteModal'})">
                     Convidar
                 </button>
             </div>

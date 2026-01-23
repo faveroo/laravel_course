@@ -28,7 +28,8 @@
 
     
 
-<script>
+@can('tasks.move')
+    <script>
 document.querySelectorAll('[data-status]').forEach(column => {
     new Sortable(column, {
     group: 'kanban',
@@ -70,6 +71,7 @@ document.querySelectorAll('[data-status]').forEach(column => {
 
 
 </script>
+@endcan
 </body>
 
 </html>

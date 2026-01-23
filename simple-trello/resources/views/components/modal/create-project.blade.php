@@ -8,16 +8,16 @@
 >
     <div @click.outside="open=false"
          class="bg-slate-950 border border-slate-800 w-full max-w-lg shadow-2xl">
-
-        <form method="POST" action="{{ route('project.store') }}">
-            @csrf
-
-            <div class="px-8 py-6 border-b border-slate-800 flex justify-between">
+        <div class="px-8 py-6 border-b border-slate-800 flex justify-between">
                 <h2 class="text-xs font-bold uppercase tracking-widest text-white">
                     Novo Projeto
                 </h2>
                 <button type="button" @click="open=false" class="text-slate-400 hover:text-white">✕</button>
             </div>
+
+        <form method="POST" action="{{ route('project.store') }}">
+            @csrf
+
             <input type="hidden" name="invite_type" value="none">
             <div class="px-8 py-8 space-y-6">
                 <x-form.input name="name" placeholder="Ex: Redesign"/>
@@ -27,7 +27,7 @@
             </div>
 
             <div class="px-8 py-6 border-t border-slate-800 flex justify-end">
-                <button class="px-8 py-3 bg-white text-slate-950 text-xs font-bold uppercase">
+                <button type="submit" class="px-8 py-3 bg-white text-slate-950 text-xs font-bold uppercase">
                     Criar Projeto
                 </button>
             </div>
