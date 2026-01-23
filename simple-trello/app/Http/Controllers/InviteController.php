@@ -34,7 +34,7 @@ class InviteController extends Controller
         );
 
         if ($validator->fails()) {
-            $modal = $request->invite_type === 'auto' ? 'inviteProjectModal' : ($request->invite_type === 'manual' ? 'inviteModal' : 'createProject');
+            $modal = $request->invite_type === 'auto' ? 'inviteProjectModal' : 'inviteModal';
 
             return back()
                 ->withErrors($validator)

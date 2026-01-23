@@ -3,6 +3,7 @@
     x-data="{ open: false }"
     x-on:open-modal.window="if ($event.detail.id === 'createProject') open = true"
     x-show="open"
+    x-cloak
     x-transition
     class="fixed inset-0 z-[999] flex items-center justify-center bg-black/60"
 >

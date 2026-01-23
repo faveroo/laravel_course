@@ -18,7 +18,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/invitation/{token}', [InviteController::class, 'accept'])->name('invitation.accept');
 
-    Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('update.status');
+    Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('update.status')
+        ->middleware('permission:tasks.move');
 
     Route::get('/user/my-invites', [UserController::class, 'index'])->name('user.myinvites');
 });

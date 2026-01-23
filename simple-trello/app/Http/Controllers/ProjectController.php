@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
@@ -21,10 +22,20 @@ class ProjectController extends Controller
 {
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'name' => ['required', 'min:6', 'max:100'],
-            'description' => ['required']
-        ]);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => ['required', 'min:5', 'max:100'],
+                'description' => ['required']
+            ]
+        );
+
+        if($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput()
+                ->with('open_modal', 'createProject');
+        }
 
         $owner_id = Auth::user()->id;
 
