@@ -18,6 +18,16 @@ Route::get('/dashboard', function () {
 
 Route::get('/auth/github/callback', function () {
     $user = Socialite::driver('github')->user();
-    // dd($user);
+    dd($user);
+    return redirect('/dashboard');
+});
+
+Route::get('/api/auth/microsoft', function () {
+    return Socialite::driver('microsoft')->redirect();
+})->name('auth.microsoft');
+
+Route::get('/api/auth', function () {
+    $user = Socialite::driver('microsoft')->stateless()->user();
+    dd($user);
     return redirect('/dashboard');
 });

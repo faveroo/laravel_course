@@ -16,7 +16,7 @@
 <body>
     <div class="container">
         <div class="microsoft-login-btn">
-            <a href="#">
+            <a href="{{ route('auth.microsoft') }}">
                 <span class="icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 21" width="21" height="21">
                         <path fill="#f25022" d="M1 1h9v9H1z" />
