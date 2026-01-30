@@ -2,16 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use Illuminate\Support\Facades\Auth;
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-Route::get('/logout', function () {
-    Auth::logout();
-    return redirect()->route('login');
-})->middleware('auth')->name('logout');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::get('/admin', function () {
+        return "Admin";
+    })->name('admin')->middleware('role:admin');
+});
 
 Route::middleware('guest')->group(function () {
     Route::get('/api/login', [AuthController::class, 'auth'])->name('auth.microsoft');
