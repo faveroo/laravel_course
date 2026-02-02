@@ -18,36 +18,43 @@ class AuthController extends Controller
 
     public function authenticate(Request $request): RedirectResponse
     {
-        $credentials = $request->validate([
-            'username' => ['required', 
-                            'min:3', 
-                            'max:30', ],
-            'password' => ['required', 
-                            Password::min(6)
-                                    ->letters()
-                                    ->numbers()]
-        ],
-        [
-            'username.required' => 'O usuário é obrigatório.',
-            'username.min' => 'O usuário deve ter no mínimo :min caracteres.',
-            'username.max' => 'O usuário deve ter no máximo :max caracteres.',
-            'password.required' => 'A senha é obrigatória.',
-        ]
+        $credentials = $request->validate(
+            [
+                'username' => [
+                    'required',
+                    'min:3',
+                    'max:30',
+                ],
+                'password' => [
+                    'required',
+                    Password::min(6)
+                        ->letters()
+                        ->numbers()
+                        ->symbols()
+                        ->uncompromised(3)
+                ]
+            ],
+            [
+                'username.required' => 'O usuário é obrigatório.',
+                'username.min' => 'O usuário deve ter no mínimo :min caracteres.',
+                'username.max' => 'O usuário deve ter no máximo :max caracteres.',
+                'password.required' => 'A senha é obrigatória.',
+            ]
         );
 
         $user = User::where('username', $credentials['username'])
-                    ->active()
-                    ->verified()
-                    ->notBlocked()
-                    ->first();
+            ->active()
+            ->verified()
+            ->notBlocked()
+            ->first();
 
-        if(!$user) {
+        if (!$user) {
             return back()->withInput()->withErrors([
                 'invalid_login' => 'Login inválido.'
             ]);
         }
 
-        if(!password_verify($credentials['password'], $user->password)) {
+        if (!password_verify($credentials['password'], $user->password)) {
             return back()->withInput()->withErrors([
                 'invalid_login' => 'Login inválido'
             ]);
@@ -74,11 +81,26 @@ class AuthController extends Controller
             [
                 'username' => ['required', 'min:3', 'max:30', 'unique:users'],
                 'email' => ['required', 'email', 'unique:users'],
-                'password' => ['required', Password::min(6)
-                                                   ->letters()
-                                                   ->numbers()
-                                                   ->symbols(), 
-                                                   'confirmed']
+                'password' => [
+                    'required',
+                    Password::min(6)
+                        ->letters()
+                        ->numbers()
+                        ->symbols()
+                        ->uncompromised(3),
+                    'confirmed'
+                ],
+            ],
+            [
+                'username.required' => 'O usuário é obrigatório.',
+                'username.min' => 'O usuário deve ter no mínimo :min caracteres.',
+                'username.max' => 'O usuário deve ter no máximo :max caracteres.',
+                'username.unique' => 'O usuário já existe.',
+                'email.required' => 'O email é obrigatório.',
+                'email.email' => 'O email é inválido.',
+                'email.unique' => 'O email já existe.',
+                'password.required' => 'A senha é obrigatória.',
+                'password.confirmed' => 'As senhas não coincidem.',
             ]
         );
 
