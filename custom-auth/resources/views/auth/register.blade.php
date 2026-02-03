@@ -9,17 +9,17 @@
                         @csrf
                         <div class="mb-3">
                             <label for="username" class="form-label">Usuário</label>
-                            <input type="text" class="form-control" id="username" name="username">
+                            <input type="text" class="form-control" id="username" name="username" value="{{ old('username') }}">
                             @error('username')
-                                <div class="text-danger">{{ $message }}</div>
+                            <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email">
+                            <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
                             @error('email')
-                                <div class="text-danger">{{ $message }}</div>
+                            <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
@@ -27,7 +27,7 @@
                             <label for="password" class="form-label">Senha</label>
                             <input type="password" class="form-control" id="password" name="password">
                             @error('password')
-                                <div class="text-danger">{{ $message }}</div>
+                            <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
@@ -53,9 +53,9 @@
                     </form>
 
                     @if(@session('invalid_register'))
-                        <div class="alert alert-danger text-center mt-3">
-                            {{ session('invalid_register') }}
-                        </div>
+                    <div class="alert alert-danger text-center mt-3">
+                        {{ session('invalid_register') }}
+                    </div>
                     @endif
                 </div>
             </div>
