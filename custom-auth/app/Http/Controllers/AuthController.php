@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewUserConfirmation;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
@@ -104,7 +107,31 @@ class AuthController extends Controller
             ]
         );
 
-        dd($credentials);
+        $user = new User();
+        $user->username = $credentials['username'];
+        $user->email = $credentials['email'];
+        $user->password = $credentials['password'];
+        $user->token = Str::random(64);
+
+        $result = Mail::to($user->email)->send(new NewUserConfirmation($user->username, route('confirm', $user->token)));
+
+        $user->save();
+        return redirect()->route('login')->with('success', 'Cadastro realizado com sucesso! Verifique seu email para confirmar o cadastro.');
+    }
+
+    public function confirm(string $token): RedirectResponse
+    {
+        $user = User::where('token', $token)->first();
+
+        if (!$user) {
+            return redirect()->route('login');
+        }
+
+        $user->verified_at = now();
+        $user->token = null;
+        $user->save();
+
+        return redirect()->route('login')->with('success', 'Cadastro confirmado com sucesso!');
     }
 
     public function logout(): RedirectResponse
