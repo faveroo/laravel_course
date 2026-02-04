@@ -115,8 +115,16 @@ class AuthController extends Controller
 
         $result = Mail::to($user->email)->send(new NewUserConfirmation($user->username, route('confirm', $user->token)));
 
+        if (!$result) {
+            return back()->withInput()->withErrors([
+                'email_error' => 'Erro ao enviar email de confirmação.'
+            ]);
+        }
+
         $user->save();
-        return redirect()->route('login')->with('success', 'Cadastro realizado com sucesso! Verifique seu email para confirmar o cadastro.');
+        return view('auth.email-sent', [
+            'email' => $user->email
+        ]);
     }
 
     public function confirm(string $token): RedirectResponse
