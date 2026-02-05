@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\NewUserConfirmation;
-use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +9,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
+use App\Mail\NewUserConfirmation;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -127,7 +127,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function confirm(string $token): RedirectResponse
+    public function confirm(string $token): RedirectResponse | View
     {
         $user = User::where('token', $token)->first();
 
@@ -139,7 +139,10 @@ class AuthController extends Controller
         $user->token = null;
         $user->save();
 
-        return redirect()->route('login')->with('success', 'Cadastro confirmado com sucesso!');
+        Auth::login($user);
+        return view('auth.welcome', [
+            'username' => $user->username
+        ]);
     }
 
     public function logout(): RedirectResponse
