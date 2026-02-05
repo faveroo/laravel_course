@@ -17,7 +17,8 @@ class User extends Authenticable
     ];
 
     protected $casts = [
-        'password' => 'hashed'
+        'password' => 'hashed',
+        'active' => 'boolean'
     ];
 
     public function scopeActive(Builder $query)
@@ -34,8 +35,7 @@ class User extends Authenticable
     {
         return $query->where(function ($q) {
             $q->whereNull('blocked_until')
-              ->orWhere('blocked_until', '<=', now());
+                ->orWhere('blocked_until', '<=', now());
         });
     }
-
 }
