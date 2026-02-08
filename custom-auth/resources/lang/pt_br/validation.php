@@ -126,7 +126,7 @@ return [
         'mixed' => 'The :attribute field must contain at least one uppercase and one lowercase letter.',
         'numbers' => 'A senha deve conter ao menos um número.',
         'symbols' => 'A senha deve conter ao menos um símbolo.',
-        'uncompromised' => 'The given :attribute has appeared in a data leak. Please choose a different :attribute.',
+        'uncompromised' => 'A :attribute foi exposta em uma vazamento de dados. Por favor, escolha outra :attribute.',
     ],
     'present' => 'The :attribute field must be present.',
     'present_if' => 'The :attribute field must be present when :other is :value.',
