@@ -30,10 +30,6 @@ class AuthController extends Controller
                 ],
                 'password' => [
                     'required',
-                    Password::min(6)
-                        ->letters()
-                        ->numbers()
-                        ->symbols()
                 ]
             ],
             [
