@@ -34,7 +34,6 @@ class AuthController extends Controller
                         ->letters()
                         ->numbers()
                         ->symbols()
-                        ->uncompromised(3)
                 ]
             ],
             [
@@ -89,8 +88,7 @@ class AuthController extends Controller
                     Password::min(6)
                         ->letters()
                         ->numbers()
-                        ->symbols()
-                        ->uncompromised(3),
+                        ->symbols(),
                     'confirmed'
                 ],
             ],
