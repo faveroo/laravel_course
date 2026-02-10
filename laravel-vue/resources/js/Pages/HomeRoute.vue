@@ -18,7 +18,7 @@ const tiggerEndpoint = async () => {
 
 <template>
     <div>
-        <h2>HOME</h2>
+        <Header>Home</Header>
         <router-link to="/test"> Take me to Test page </router-link>
         <button class="bg-blue-500 text-white px-4 py-2" @click.prevent="tiggerEndpoint">Trigger Endpoint</button>
         <p v-if="response">{{ response.data }}</p>
