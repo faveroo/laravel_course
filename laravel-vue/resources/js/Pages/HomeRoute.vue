@@ -47,7 +47,7 @@ const tiggerEndpoint = async () => {
         <Header>Home</Header>
         <router-link to="/test"> Take me to Test page </router-link>
         <button
-            class="bg-blue-500 text-white px-4 py-2 disabled:opacity-50"
+            class="bg-gray-800 dark:bg-gray-600 hover:bg-gray-700 dark:hover:bg-gray-500 text-white px-4 py-2 disabled:opacity-50 cursor-pointer"
             :disabled="loading"
             @click="tiggerEndpoint"
         >
