@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('HomeRoute');
+    return Inertia::render('HomeRoute');    
 });
 
 Route::get('/test', function () {
