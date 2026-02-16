@@ -47,7 +47,7 @@ const tiggerEndpoint = async () => {
     <div>
         <Header>Home Page</Header>
         <Link href="/test"> Take me to Test page </Link>
-        <Link href="/error"> Take me to Error page </Link>
+       
         <button
             class="bg-gray-800 dark:bg-gray-600 hover:bg-gray-700 dark:hover:bg-gray-500 text-white px-4 py-2 disabled:opacity-50 cursor-pointer"
             :disabled="loading"
